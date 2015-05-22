@@ -1,17 +1,8 @@
 package forme.klijent;
 
-import domen.GenerickiDomenskiObjekat;
-import domen.Korisnik;
 import forme.admin.FAdmin;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
 
 
 /*
@@ -146,52 +137,23 @@ public class FKlijentLogin extends javax.swing.JFrame {
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
         String korisnickoIme = jtxtKorisnickoIme.getText().trim();
         String korisnickaSifra = new String(jtxtSifra.getPassword());
-        boolean validacija = false;
-        Korisnik k = null;
-        List<GenerickiDomenskiObjekat> listaKorisnika = null;
+
         try {
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_KORISNIKE);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                listaKorisnika = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-            for (int i = 0; i < listaKorisnika.size(); i++) {
-                if (((Korisnik) listaKorisnika.get(i)).getKorisnickoIme().equals(korisnickoIme)) {
-                    validacija = true;
-                    k = (Korisnik) listaKorisnika.get(i);
-                }
-            }
-            if (validacija) {
-                if (k.getKorisnickoIme().equals("admin")) {
+            if (Kontroler.getInstance().ulogujSe(korisnickoIme, korisnickaSifra)) {
+                JOptionPane.showMessageDialog(this, "Uspesno ste se prijavili");
+                if (korisnickoIme.equals("admin")) {
                     FAdmin g = new FAdmin();
                     g.setVisible(true);
                     this.dispose();
-                } else {
-                    kto = new KlijentTransferObjekat();
-                    kto.setOperacija(Konstante.OPERACIJA_DODAJ_U_SESIJU);
-                    kto.setParametar(k);
-                    Komunikacija.getInstanca().posaljiZahtev(kto);
-
-                    sto = Komunikacija.getInstanca().procitajOdgovor();
-                    if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                        JOptionPane.showMessageDialog(this, "Uspesno ste se prijavili");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-                    }
+                } else {                  
                     FRezervacija rezervacija = new FRezervacija();
 
                     rezervacija.setVisible(true);
                     this.setVisible(false);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Korisnik nije nađen", "Korisnik nije nađen", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Korisnik nije nađen", "Greška", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (Exception ex) {

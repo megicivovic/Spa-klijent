@@ -6,15 +6,8 @@
 package forme.klijent;
 
 import domen.Korisnik;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
-
+import poslovnalogika.Kontroler;
 
 /**
  *
@@ -54,12 +47,6 @@ public class FRegistracija extends javax.swing.JFrame {
         jLabel2.setText("Registracija");
 
         jLabel4.setText("Korisničko ime:");
-
-        jtxtKorisnickoIme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtKorisnickoImeActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Korisnička šifra:");
 
@@ -127,39 +114,30 @@ public class FRegistracija extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxtKorisnickoImeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtKorisnickoImeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtKorisnickoImeActionPerformed
-
     private void jbtnRegistracijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistracijaActionPerformed
         String korisnickoIme = jtxtKorisnickoIme.getText().trim();
         String korisnickaSifra = new String(jtxtSifra.getPassword());
         String imePrezime = jtxtImePrezime.getText();
-
-        Korisnik k = new Korisnik();
-        k.setImePrezime(imePrezime);
-        k.setKorisnickoIme(korisnickoIme);
-        k.setKorisnickaSifra(korisnickaSifra);
         try {
-              KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_DODAJ_KORISNIKA);
-        kto.setParametar(k);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
+            if (Kontroler.getInstance().validirajIme(imePrezime)
+                    && Kontroler.getInstance().validirajKorisnickoIme(korisnickoIme)
+                    && Kontroler.getInstance().validirajSifru(korisnickaSifra)) {
 
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-           JOptionPane.showMessageDialog(this, "Uspesno ste se registrovali!");
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-        }                        
-           
+                Korisnik k = new Korisnik();
+                k.setImePrezime(imePrezime);
+                k.setKorisnickoIme(korisnickoIme);
+                k.setKorisnickaSifra(korisnickaSifra);
+
+                JOptionPane.showMessageDialog(this, "Uspesno ste se registrovali!");
+                FKlijentLogin fkl = new FKlijentLogin();
+                fkl.setVisible(true);
+                this.dispose();
+
+            }
         } catch (Exception ex) {
-            Logger.getLogger(FRegistracija.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
-        FKlijentLogin fkl = new FKlijentLogin();
-        fkl.setVisible(true);
-        this.dispose();
+
 
     }//GEN-LAST:event_jbtnRegistracijaActionPerformed
 

@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
+import protokol.objekti.KlijentZahtev;
+import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -203,25 +202,16 @@ public class FPreparat extends javax.swing.JFrame {
             resetujLabele();
             try {
 
-                KlijentTransferObjekat kto = new KlijentTransferObjekat();
-                kto.setOperacija(Konstante.OPERACIJA_DODAJ_PREPARAT);
-                kto.setParametar(p);
-                Komunikacija.getInstanca().posaljiZahtev(kto);
-
-                ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-                if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                    JOptionPane.showMessageDialog(this, "Preparat je uspesno dodat.");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-                }
-
+                Kontroler.getInstance().dodajPreparat(p);
+                JOptionPane.showMessageDialog(this, "Preparat je uspesno dodat.");
                 jtxtPoruka.setVisible(true);
                 jtxtPoruka.setText("Preparat je uspesno dodat.");
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
                 jtxtPoruka.setText(ex.getMessage());
             }
-
         }
+
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
     /**
@@ -271,14 +261,7 @@ public class FPreparat extends javax.swing.JFrame {
             public void run() {
                 try {
                     new FPreparat().setVisible(true);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(FPreparat.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FPreparat.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(FPreparat.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(FPreparat.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -302,21 +285,15 @@ public class FPreparat extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        jtxtPoruka.setVisible(false);
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_KOMPANIJE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-
-            List<GenerickiDomenskiObjekat> kompanije = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
+        jtxtPoruka.setVisible(false);      
+        try{
+            List<Kompanija> kompanije = Kontroler.getInstance().vratiSveKompanije();
             comboKompanije.removeAllItems();
             for (GenerickiDomenskiObjekat k : kompanije) {
                 comboKompanije.addItem(k);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
     }

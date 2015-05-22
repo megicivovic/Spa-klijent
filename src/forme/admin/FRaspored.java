@@ -5,7 +5,6 @@
  */
 package forme.admin;
 
-import domen.GenerickiDomenskiObjekat;
 import domen.Raspored;
 import domen.Tretman;
 import domen.Zaposleni;
@@ -16,10 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
 
 /**
  *
@@ -131,33 +127,20 @@ public class FRaspored extends javax.swing.JFrame {
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
         Zaposleni z = (Zaposleni) comboZaposleni.getSelectedItem();
         Tretman t = (Tretman) comboTretmani.getSelectedItem();
-        int brTermina = 0;
+        String brTermina = jtxtTermini.getText();
+        int brojTermina = -1;
         try {
-            brTermina = Integer.parseInt(jtxtTermini.getText());
+            brojTermina = Kontroler.getInstance().validirajBrojTermina(brTermina);
         } catch (Exception e) {
-            errBrTermina.setText("Broj termina mora biti broj!");
-
+            errBrTermina.setText(e.getMessage());
         }
-        Raspored r = new Raspored(brTermina, z, t);
+        Raspored r = new Raspored(brojTermina, z, t);
         try {
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_DODAJ_RASPORED);
-            kto.setParametar(r);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Uspesno ste uneli raspored!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FRaspored.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FRaspored.class.getName()).log(Level.SEVERE, null, ex);
+            Kontroler.getInstance().dodajRaspored(r);
+            JOptionPane.showMessageDialog(this, "Uspešno ste uneli raspored!");
         } catch (Exception ex) {
-            Logger.getLogger(FRaspored.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
@@ -176,16 +159,21 @@ public class FRaspored extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FRaspored.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FRaspored.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FRaspored.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FRaspored.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FRaspored.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FRaspored.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FRaspored.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FRaspored.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -209,29 +197,19 @@ public class FRaspored extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
-
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_ZAPOSLENE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            List<GenerickiDomenskiObjekat> lz = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
+        try {
+            
+            List<Zaposleni> lz = Kontroler.getInstance().vratiSveZaposlene();
             comboZaposleni.setModel(new DefaultComboBoxModel(lz.toArray()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+            
+            List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
+             comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);            
         }
 
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_TRETMANE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            List<GenerickiDomenskiObjekat> lt = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
-            comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-        }      
+       
 
     }
 }

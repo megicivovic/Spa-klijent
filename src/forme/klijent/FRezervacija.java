@@ -5,25 +5,20 @@
  */
 package forme.klijent;
 
-import domen.GenerickiDomenskiObjekat;
 import domen.Korisnik;
+import domen.Raspored;
 import domen.Rezervacija;
 import domen.Tretman;
 import domen.Zaposleni;
 import gui.modeltabele.RModelTabele;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
 
 /**
  *
@@ -31,7 +26,7 @@ import transfer.ServerTransferObjekat;
  */
 public class FRezervacija extends javax.swing.JFrame {
 
-    List<GenerickiDomenskiObjekat> listaRasporeda;
+    List<Raspored> listaRasporeda;
     RModelTabele rmt;
     Rezervacija r;
 
@@ -42,14 +37,8 @@ public class FRezervacija extends javax.swing.JFrame {
         try {
             initComponents();
             srediFormu();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -182,45 +171,18 @@ public class FRezervacija extends javax.swing.JFrame {
         String sVreme = jtxtVreme.getText();
 
         try {
-            Date vreme = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sVreme);
+            Date vreme = Kontroler.getInstance().validirajDatum(sVreme);
+
             //id iz sesije
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_DAJ_ID_KORISNIKA_IZ_SESIJE);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
+            int klijentID = ((Korisnik) Kontroler.getInstance().getAktivniKlijent()).getKlijentID();
+            r = new Rezervacija(klijentID, tretmanID, zaposleniID, vreme);
+            Kontroler.getInstance().dodajRezervaciju(r);
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                int klijentID = ((Korisnik) sto.getPodaci()).getKlijentID();
-                r = new Rezervacija(klijentID, tretmanID, zaposleniID, vreme);
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
+            JOptionPane.showMessageDialog(this, "Uspesno ste izvrsili rezervaciju");
 
-            kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_DODAJ_REZERVACIJU);
-            kto.setParametar(r);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
-
-            sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-
-                JOptionPane.showMessageDialog(this, "Uspesno ste izvrsili rezervaciju");
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ParseException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-            jlblStatus.setText(ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-            jlblStatus.setText(ex.getMessage());
-        } catch (IOException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-            jlblStatus.setText(ex.getMessage());
         } catch (Exception ex) {
             Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
             jlblStatus.setText(ex.getMessage());
         }
 
@@ -228,21 +190,10 @@ public class FRezervacija extends javax.swing.JFrame {
 
     private void jbtnStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStampaActionPerformed
         try {
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_STAMPAJ_PDF);
-            kto.setParametar(r);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
-
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Generisan je PDF!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            Kontroler.getInstance().stampajPDF(r);
+            JOptionPane.showMessageDialog(this, "Generisan je PDF!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnStampaActionPerformed
@@ -296,18 +247,12 @@ public class FRezervacija extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
-
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_RASPOREDE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            listaRasporeda = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
+        try {
+            listaRasporeda = Kontroler.getInstance().vratiSveRasporede();
             rmt = new RModelTabele(listaRasporeda);
             jtblRaspored.setModel(rmt);
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }

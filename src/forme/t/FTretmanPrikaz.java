@@ -24,13 +24,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.text.BadLocationException;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
+import protokol.objekti.KlijentZahtev;
+import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -38,8 +35,8 @@ import transfer.ServerTransferObjekat;
  */
 public class FTretmanPrikaz extends javax.swing.JFrame {
 
-    private List<GenerickiDomenskiObjekat> ltRef;
-    private List<GenerickiDomenskiObjekat> lt;
+    private List<Tretman> ltRef;
+    private List<Tretman> lt;
     private TModelTabele tmt;
 
     /**
@@ -131,71 +128,25 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
         int red = jtblTretmani.getSelectedRow();
         int tretmanID = (int) jtblTretmani.getModel().getValueAt(red, 0);
         try {
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_OBRISI_PREPARATE_TRETMANA);
-            kto.setParametar(tretmanID);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
+            Tretman t = new Tretman(tretmanID);
+            Kontroler.getInstance().obrisiPreparateTretmana(t);
+            JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana");
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
+            Kontroler.getInstance().obrisiRasporedeTretmana(t);
+            JOptionPane.showMessageDialog(this, "Obrisani su rasporedi tretmana");
 
-            kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_OBRISI_RASPOREDE_TRETMANA);
-            kto.setParametar(tretmanID);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
+            Kontroler.getInstance().obrisiTretman(t);
+            JOptionPane.showMessageDialog(this, "Obrisan je tretman");
 
-            sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Obrisani su rasporedi tretmana" + tretmanID);
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-            kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_OBRISI_TRETMAN);
-            kto.setParametar(tretmanID);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
+            List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
+            TModelTabele pmt = new TModelTabele(lt);
+            jtblTretmani.setModel(pmt);
 
-            sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Obrisani je tretman");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
-        List<GenerickiDomenskiObjekat> lt = null;
-        try {
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_TRETMANE);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                lt = (List<GenerickiDomenskiObjekat>) sto.getPodaci();             
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        TModelTabele pmt = new TModelTabele(lt);
-        jtblTretmani.setModel(pmt);
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 
     /**
@@ -210,78 +161,70 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_TRETMANE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
+        try {
+            ltRef = Kontroler.getInstance().vratiSveTretmane();
+            lt = new ArrayList<Tretman>(ltRef);
+            tmt = new TModelTabele(lt);
+            jtblTretmani.setModel(tmt);
 
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-             ltRef = (List<GenerickiDomenskiObjekat>) sto.getPodaci();  
-      
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+            Action action = new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    TableCellListener tcl = (TableCellListener) e.getSource();
+                    System.out.println("Row   : " + tcl.getRow());
+                    System.out.println("Column: " + tcl.getColumn());
+                    System.out.println("Old   : " + tcl.getOldValue());
+                    System.out.println("New   : " + tcl.getNewValue());
+
+                }
+            };
+
+            jtblTretmani.addPropertyChangeListener(new TableCellListener(jtblTretmani, action));
+
+            jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
+
+            jtblTretmani.getColumn("Preparati").setCellEditor(
+                    new ButtonEditor(new JCheckBox(), jtblTretmani));
+
+            jtxtPretraga.getDocument().addDocumentListener(new DocumentListener() {
+                public void changedUpdate(DocumentEvent e) {
+
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    filter();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    filter();
+                }
+
+                public void filter() {
+                    String slova = "";
+                    try {
+                        slova = jtxtPretraga.getDocument().getText(0, jtxtPretraga.getDocument().getLength());
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    lt = new ArrayList<Tretman>(ltRef);
+                    for (int i = 0; i < lt.size(); i++) {
+                        if (!((Tretman) lt.get(i)).getOpis().contains(slova)) {
+                            lt.remove(i);
+                        }
+                    }
+                    if (lt.size() == 1) {
+                        if (!((Tretman) lt.get(0)).getOpis().contains(slova)) {
+                            lt.remove(0);
+                        }
+                    }
+
+                    tmt = new TModelTabele(lt);
+                    jtblTretmani.setModel(tmt);
+
+                }
+            });
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }
-       
-
-        lt = new ArrayList<GenerickiDomenskiObjekat>(ltRef);
-        tmt = new TModelTabele(lt);
-        jtblTretmani.setModel(tmt);
-
-        Action action = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                TableCellListener tcl = (TableCellListener) e.getSource();
-                System.out.println("Row   : " + tcl.getRow());
-                System.out.println("Column: " + tcl.getColumn());
-                System.out.println("Old   : " + tcl.getOldValue());
-                System.out.println("New   : " + tcl.getNewValue());
-
-            }
-        };
-
-        jtblTretmani.addPropertyChangeListener(new TableCellListener(jtblTretmani, action));
-
-        jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
-
-        jtblTretmani.getColumn("Preparati").setCellEditor(
-                new ButtonEditor(new JCheckBox(), jtblTretmani));
-
-        jtxtPretraga.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                filter();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                filter();
-            }
-
-            public void filter() {
-                String slova = "";
-                try {
-                    slova = jtxtPretraga.getDocument().getText(0, jtxtPretraga.getDocument().getLength());
-                } catch (BadLocationException ex) {
-                    Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                lt = new ArrayList<GenerickiDomenskiObjekat>(ltRef);
-                for (int i = 0; i < lt.size(); i++) {
-                    if (!((Tretman) lt.get(i)).getOpis().contains(slova)) {
-                        lt.remove(i);
-                    }
-                }
-                if (lt.size() == 1) {
-                    if (!((Tretman) lt.get(0)).getOpis().contains(slova)) {
-                        lt.remove(0);
-                    }
-                }
-
-                tmt = new TModelTabele(lt);
-                jtblTretmani.setModel(tmt);
-
-            }
-        });
-
     }
 }

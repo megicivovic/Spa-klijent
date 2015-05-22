@@ -11,12 +11,10 @@ import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
+import protokol.objekti.KlijentZahtev;
+import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -196,25 +194,16 @@ public class FZaposleni extends javax.swing.JFrame {
 
             resetujLabele();
             try {
-
-                KlijentTransferObjekat kto = new KlijentTransferObjekat();
-                kto.setOperacija(Konstante.OPERACIJA_DODAJ_ZAPOSLENOG);
-                kto.setParametar(z);
-                Komunikacija.getInstanca().posaljiZahtev(kto);
-
-                ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-                if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                   JOptionPane.showMessageDialog(this, "Uspesno ste uneli zaposlenog!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-                }          
+                Kontroler.getInstance().dodajZaposlenog(z);
+                JOptionPane.showMessageDialog(this, "Uspesno ste uneli zaposlenog!");
                 jtxtPoruka.setVisible(true);
                 jtxtPoruka.setText("Zaposleni je uspesno sacuvan");
             } catch (Exception ex) {
-                jtxtPoruka.setText(ex.getMessage());
+                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
         }
+
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
     /**
@@ -231,16 +220,21 @@ public class FZaposleni extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FZaposleni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FZaposleni.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FZaposleni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FZaposleni.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FZaposleni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FZaposleni.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FZaposleni.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FZaposleni.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

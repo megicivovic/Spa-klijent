@@ -5,16 +5,15 @@
  */
 package gui.modeltabele;
 
-import domen.GenerickiDomenskiObjekat;
 import domen.Raspored;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class RModelTabele extends AbstractTableModel {
 
-    List<GenerickiDomenskiObjekat> lr;
+    List<Raspored> lr;
 
-    public RModelTabele(List<GenerickiDomenskiObjekat> lr) {
+    public RModelTabele(List<Raspored> lr) {
         this.lr = lr;
 
     }
@@ -61,7 +60,7 @@ public class RModelTabele extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public List<GenerickiDomenskiObjekat> vratiListu() {
+    public List<Raspored> vratiListu() {
         return this.lr;
     }
 

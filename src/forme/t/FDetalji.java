@@ -7,6 +7,7 @@ package forme.t;
 
 import domen.GenerickiDomenskiObjekat;
 import domen.Preparat;
+import domen.Tretman;
 import domen.TretmanPreparati;
 import gui.modeltabele.PModelTabele;
 import java.awt.Dimension;
@@ -20,10 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
 
 /**
  *
@@ -31,8 +29,8 @@ import transfer.ServerTransferObjekat;
  */
 public class FDetalji extends javax.swing.JFrame {
 
-    private List<GenerickiDomenskiObjekat> listaDesno;
-    private List<GenerickiDomenskiObjekat> listaLevo;
+    private List<TretmanPreparati> listaDesno;
+    private List<Preparat> listaLevo;
     List<Preparat> listaPreparata;
     private PModelTabele pmt;
     private DefaultListModel<Preparat> dlm;
@@ -210,45 +208,24 @@ public class FDetalji extends javax.swing.JFrame {
         }
 
         try {
+            Tretman t = new Tretman(tretmanID);
+            Kontroler.getInstance().obrisiPreparateTretmana(t);
+            JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana...");
 
-            KlijentTransferObjekat kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_OBRISI_PREPARATE_TRETMANA);
-            kto.setParametar(tretmanID);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
+            Kontroler.getInstance().setListaPreparataTretmana(ltp);
+            Kontroler.getInstance().dodajPreparateTretmana();
+            JOptionPane.showMessageDialog(this, "Uspesno su dodati preparati tretmana!");
 
-            ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana...");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-            kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_DODAJ_PREPARATE_TRETMANA);
-            kto.setParametar(ltp);
-            Komunikacija.getInstanca().posaljiZahtev(kto);
-
-            sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                JOptionPane.showMessageDialog(this, "Uspesno su dodati preparati tretmana!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(FDetalji.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+/**
+ * @param args the command line arguments
+ */
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -259,16 +236,32 @@ public class FDetalji extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FDetalji.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -277,14 +270,30 @@ public class FDetalji extends javax.swing.JFrame {
             public void run() {
                 try {
                     new FDetalji().setVisible(true);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(FDetalji.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FDetalji.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(FDetalji.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(FDetalji.class.getName()).log(Level.SEVERE, null, ex);
+                
+
+} catch (ClassNotFoundException ex) {
+                    Logger.getLogger(FDetalji.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+                } 
+
+catch (SQLException ex) {
+                    Logger.getLogger(FDetalji.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+                } 
+
+catch (IOException ex) {
+                    Logger.getLogger(FDetalji.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+                } 
+
+catch (Exception ex) {
+                    Logger.getLogger(FDetalji.class  
+
+.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -315,61 +324,36 @@ public class FDetalji extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_PREPARATE_TRETMANA);
-        kto.setParametar(tretmanID);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
+        Tretman t = new Tretman(tretmanID);
+        try {
+            listaDesno = Kontroler.getInstance().vratiSvePreparateTretmana(t);
+            listaPreparata = new ArrayList<>();
 
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            listaDesno = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
+            DefaultListModel dlm = new DefaultListModel();
+            for (int i = 0; i < listaDesno.size(); i++) {
+                Preparat p1 = new Preparat();
+                p1.setPreparatID(((TretmanPreparati) listaDesno.get(i)).getPreparatID());
+                Preparat p = Kontroler.getInstance().vratiPreparatPoID(p1);
+                dlm.addElement(p);
+                listaPreparata.add(p);
+                jListIzabraniPreparati.setModel(dlm);
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-        }
-
-        listaPreparata = new ArrayList<>();
-        Preparat p = null;
-        DefaultListModel dlm = new DefaultListModel();
-        for (int i = 0; i < listaDesno.size(); i++) {
-            kto = new KlijentTransferObjekat();
-            kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_PREPARATE_PO_ID);
-            kto.setParametar(((TretmanPreparati) listaDesno.get(i)).getPreparatID());
-            Komunikacija.getInstanca().posaljiZahtev(kto);
-
-            sto = Komunikacija.getInstanca().procitajOdgovor();
-            if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                p = (Preparat) sto.getPodaci();
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-            }
-            dlm.addElement(p);
-            listaPreparata.add(p);
-        }
-        jListIzabraniPreparati.setModel(dlm);
-        
-        kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_PREPARATE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-         sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-           listaLevo = new ArrayList<>((List<GenerickiDomenskiObjekat>) sto.getPodaci());
-           
-        }else{
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-        }                
-            for (int i = 0; i < listaLevo.size(); i++) {
-            for (int j = 0; j < listaPreparata.size(); j++) {
-                if (listaLevo.get(i).equals(listaPreparata.get(j))) {
-                    listaLevo.remove(i);
+                listaLevo = Kontroler.getInstance().vratiSvePreparate();
+                for (int k = 0; k < listaLevo.size(); k++) {
+                    for (int j = 0; j < listaPreparata.size(); j++) {
+                        if (listaLevo.get(k).equals(listaPreparata.get(j))) {
+                            listaLevo.remove(k);
+                        }
+                    }
                 }
-            }
-        }
 
-        PModelTabele pmt = new PModelTabele(listaLevo);
-        jtblPreparati.setModel(pmt);
+                PModelTabele pmt = new PModelTabele(listaLevo);
+                jtblPreparati.setModel(pmt);
+
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 

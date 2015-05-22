@@ -6,13 +6,11 @@ import javax.swing.*;
 import java.beans.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
+import protokol.objekti.KlijentZahtev;
+import protokol.objekti.ServerOdgovor;
 
 
 /*
@@ -162,7 +160,7 @@ public class TableCellListener implements PropertyChangeListener, Runnable {
     /*
      *	Update the Cell history when necessary
      */
-    private void processEditingStopped() throws ClassNotFoundException, SQLException, IOException, Exception {
+    private void processEditingStopped() throws Exception {
 
         newValue = table.getModel().getValueAt(row, column);
         int IDtretmana = (int) table.getModel().getValueAt(row, 0);
@@ -171,18 +169,11 @@ public class TableCellListener implements PropertyChangeListener, Runnable {
         t.setCena((double) table.getModel().getValueAt(row, 2));
         t.setTrajanjeUMin((int) table.getModel().getValueAt(row, 3));
 
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_IZMENI_TRETMAN);
-        kto.setParametar(t);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-         
-        } else {
-            throw new Exception("Greska pri izmeni tretmana");    
+        try {
+            Kontroler.getInstance().izmeniTretman(t);
+        } catch (Exception ex) {
+            throw new Exception("Greska: "+ex.getMessage());
         }
-     
 
         //  The data has changed, invoke the supplied Action
         if (!newValue.equals(oldValue)) {

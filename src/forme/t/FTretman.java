@@ -22,10 +22,9 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
+import protokol.objekti.KlijentZahtev;
+import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -38,20 +37,14 @@ public class FTretman extends javax.swing.JFrame {
     List<Preparat> lpRef;
     PModelTabele pmt;
     List<Preparat> lista;
-    List<GenerickiDomenskiObjekat> listaLevo;
-    private List<GenerickiDomenskiObjekat> listaDesno;
+    List<Preparat> listaLevo;
+    private List<Preparat> listaDesno;
     private Tretman tretmanIzmena;
 
     public FTretman() {
         initComponents();
         try {
             srediFormu();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -283,42 +276,18 @@ public class FTretman extends javax.swing.JFrame {
 
             try {
 
-                KlijentTransferObjekat kto = new KlijentTransferObjekat();
-                kto.setOperacija(Konstante.OPERACIJA_DODAJ_TRETMAN);
-                kto.setParametar(t);
-                Komunikacija.getInstanca().posaljiZahtev(kto);
-
-                ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-                if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                    JOptionPane.showMessageDialog(this, "Uspesno ste uneli tretman!");
-                    int tretmanID = (int) sto.getPodaci();
-
-                    for (Preparat p : lp) {
-                        preparatiTretmana.add(new TretmanPreparati(tretmanID, p.getPreparatID()));
-                    }
-
-                    kto = new KlijentTransferObjekat();
-                    kto.setOperacija(Konstante.OPERACIJA_DODAJ_PREPARATE_TRETMANA);
-                    kto.setParametar(preparatiTretmana);
-                    Komunikacija.getInstanca().posaljiZahtev(kto);
-
-                    sto = Komunikacija.getInstanca().procitajOdgovor();
-                    if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-                        JOptionPane.showMessageDialog(this, "Uspesno dodati preparati tretmana!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+                int tretmanID = Kontroler.getInstance().dodajTretman(t);
+                JOptionPane.showMessageDialog(this, "Uspesno ste uneli tretman!");
+                for (Preparat p : lp) {
+                    preparatiTretmana.add(new TretmanPreparati(tretmanID, p.getPreparatID()));
                 }
+                Kontroler.getInstance().setListaPreparataTretmana(preparatiTretmana);
+                Kontroler.getInstance().dodajPreparateTretmana();
 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Uspesno dodati preparati tretmana!");
+
             } catch (Exception ex) {
-                Logger.getLogger(FTretman.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
             try {
@@ -435,24 +404,17 @@ public class FTretman extends javax.swing.JFrame {
         jtxtPoruka.setEditable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-
-        lista = new ArrayList<Preparat>();
-
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_PREPARATE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            listaLevo = (List<GenerickiDomenskiObjekat>) sto.getPodaci();
+        try {
+            lista = new ArrayList<Preparat>();
+            listaLevo = Kontroler.getInstance().vratiSvePreparate();
             pmt = new PModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
 
-            listaDesno = new ArrayList<GenerickiDomenskiObjekat>();
+            listaDesno = new ArrayList<Preparat>();
             dlm = new DefaultListModel();
             jListIzabraniPreparati.setModel(dlm);
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -463,22 +425,17 @@ public class FTretman extends javax.swing.JFrame {
         jtxtPoruka.setText("");
         errDatum.setText("");
 
-        KlijentTransferObjekat kto = new KlijentTransferObjekat();
-        kto.setOperacija(Konstante.OPERACIJA_VRATI_SVE_PREPARATE);
-        Komunikacija.getInstanca().posaljiZahtev(kto);
-
-        ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-        if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
-            listaLevo = new ArrayList<GenerickiDomenskiObjekat>((List<GenerickiDomenskiObjekat>) sto.getPodaci());
+        try {
+            listaLevo = new ArrayList<Preparat>(Kontroler.getInstance().vratiSvePreparate());
 
             pmt = new PModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
 
-            listaDesno = new ArrayList<GenerickiDomenskiObjekat>();
+            listaDesno = new ArrayList<Preparat>();
             dlm = new DefaultListModel();
             jListIzabraniPreparati.setModel(dlm);
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
     }

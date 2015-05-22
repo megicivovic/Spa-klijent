@@ -5,9 +5,7 @@
  */
 package gui.modeltabele;
 
-import domen.GenerickiDomenskiObjekat;
 import domen.Preparat;
-import domen.TretmanPreparati;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +18,9 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PModelTabele extends AbstractTableModel {
 
-    List<GenerickiDomenskiObjekat> lp;
+    List<Preparat> lp;
 
-    public PModelTabele(List<GenerickiDomenskiObjekat> lp) {
+    public PModelTabele(List<Preparat> lp) {
         this.lp = lp;
     }
 
@@ -80,7 +78,7 @@ public class PModelTabele extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public List<GenerickiDomenskiObjekat> vratiListu() {
+    public List<Preparat> vratiListu() {
         return this.lp;
     }
 

@@ -16,9 +16,9 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TModelTabele extends AbstractTableModel {
 
-    List<GenerickiDomenskiObjekat> lt;
+    List<Tretman> lt;
 
-    public TModelTabele(List<GenerickiDomenskiObjekat> lt) {
+    public TModelTabele(List<Tretman> lt) {
         this.lt = lt;
 
     }
@@ -102,7 +102,7 @@ public class TModelTabele extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public List<GenerickiDomenskiObjekat> vratiListu() {
+    public List<Tretman> vratiListu() {
         return this.lt;
     }
 

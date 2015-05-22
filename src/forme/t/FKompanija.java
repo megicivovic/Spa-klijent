@@ -11,12 +11,8 @@ import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
-import komunikacija.Komunikacija;
-import konstante.Konstante;
-import transfer.KlijentTransferObjekat;
-import transfer.ServerTransferObjekat;
+import poslovnalogika.Kontroler;
 
 /**
  *
@@ -282,22 +278,14 @@ public class FKompanija extends javax.swing.JFrame {
             pp.setAdresa(ulicaIBroj);
             resetujLabele();
             try {
-                KlijentTransferObjekat kto = new KlijentTransferObjekat();
-                kto.setOperacija(Konstante.OPERACIJA_DODAJ_KOMPANIJU);
-                kto.setParametar(pp);
-                Komunikacija.getInstanca().posaljiZahtev(kto);
 
-                ServerTransferObjekat sto = Komunikacija.getInstanca().procitajOdgovor();
-                if (sto.getUspesnostIzvrsenjaOperacije() == 1) {
+                Kontroler.getInstance().dodajKompaniju(pp);
                 JOptionPane.showMessageDialog(this, "Uspesno ste uneli kompaniju!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Greska: " + sto.getException().getMessage());
-                }
-        
                 jtxtPoruka.setVisible(true);
                 jtxtPoruka.setText("Kompanija je uspesno sacuvana");
-            } catch (Exception e) {
-                jtxtPoruka.setText(e.getMessage());
+            } catch (Exception ex) {
+                jtxtPoruka.setText(ex.getMessage());
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
