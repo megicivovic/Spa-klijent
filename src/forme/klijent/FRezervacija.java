@@ -166,16 +166,16 @@ public class FRezervacija extends javax.swing.JFrame {
     private void jbtnRezervisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRezervisiActionPerformed
 
         int red = jtblRaspored.getSelectedRow();
-        int tretmanID = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0)).getTretmanID();
-        int zaposleniID = ((Zaposleni) jtblRaspored.getModel().getValueAt(red, 1)).getZaposleniID();
+      Tretman tretman = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0));
+        Zaposleni zaposleni = ((Zaposleni) jtblRaspored.getModel().getValueAt(red, 1));
         String sVreme = jtxtVreme.getText();
 
         try {
             Date vreme = Kontroler.getInstance().validirajDatum(sVreme);
 
             //id iz sesije
-            int klijentID = ((Korisnik) Kontroler.getInstance().getAktivniKlijent()).getKlijentID();
-            r = new Rezervacija(klijentID, tretmanID, zaposleniID, vreme);
+            Korisnik klijent = ((Korisnik) Kontroler.getInstance().getAktivniKlijent());
+            r = new Rezervacija(klijent, tretman, zaposleni, vreme);
             Kontroler.getInstance().dodajRezervaciju(r);
 
             JOptionPane.showMessageDialog(this, "Uspesno ste izvrsili rezervaciju");

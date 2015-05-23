@@ -1,6 +1,10 @@
 package forme.klijent;
 
 import forme.admin.FAdmin;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import poslovnalogika.Kontroler;
 
@@ -146,7 +150,7 @@ public class FKlijentLogin extends javax.swing.JFrame {
                     FAdmin g = new FAdmin();
                     g.setVisible(true);
                     this.dispose();
-                } else {                  
+                } else {
                     FRezervacija rezervacija = new FRezervacija();
 
                     rezervacija.setVisible(true);
@@ -195,6 +199,14 @@ public class FKlijentLogin extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        Socket socket;
+        try {
+            socket = new Socket("127.0.0.1", 9000);
+        } catch (IOException ex) {
+            Logger.getLogger(FKlijentLogin.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        Kontroler.getInstance().setSocket(socket);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

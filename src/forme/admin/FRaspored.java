@@ -130,9 +130,9 @@ public class FRaspored extends javax.swing.JFrame {
         String brTermina = jtxtTermini.getText();
         int brojTermina = -1;
         try {
-            brojTermina = Kontroler.getInstance().validirajBrojTermina(brTermina);
+            brojTermina = Integer.parseInt(brTermina);
         } catch (Exception e) {
-            errBrTermina.setText(e.getMessage());
+            errBrTermina.setText("Broj termina mora biti broj!");
         }
         Raspored r = new Raspored(brojTermina, z, t);
         try {

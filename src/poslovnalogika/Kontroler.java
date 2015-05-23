@@ -102,15 +102,7 @@ public class Kontroler {
 //    public void setSlucajeviKoriscenja(SlucajeviKoriscenja slucajeviKoriscenja) {
 //        this.slucajeviKoriscenja = slucajeviKoriscenja;
 //    }
-    public int validirajBrojTermina(String brTermina) throws Exception {
-        try {
-            int brojTermina = Integer.parseInt(brTermina);
-            return brojTermina;
-        } catch (Exception e) {
-            throw new Exception("Broj termina mora biti broj!");
-
-        }
-    }
+  
 
     private Object posaljiPrimi(KlijentZahtev klijentZahtev) throws Exception {
         ServerOdgovor serverOdgovor = null;
