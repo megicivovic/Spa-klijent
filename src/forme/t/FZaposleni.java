@@ -195,11 +195,12 @@ public class FZaposleni extends javax.swing.JFrame {
             resetujLabele();
             try {
                 Kontroler.getInstance().dodajZaposlenog(z);
-                JOptionPane.showMessageDialog(this, "Uspesno ste uneli zaposlenog!");
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio unetog zaposlenog");
                 jtxtPoruka.setVisible(true);
                 jtxtPoruka.setText("Zaposleni je uspesno sacuvan");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novog zaposlenog", "Greska",
+                JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -270,7 +271,7 @@ public class FZaposleni extends javax.swing.JFrame {
     private void srediFormu() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        jtxtPoruka.setVisible(false);
+        jtxtPoruka.setVisible(false);          
     }
 
     private void resetujLabele() {

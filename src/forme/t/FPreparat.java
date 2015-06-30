@@ -203,11 +203,9 @@ public class FPreparat extends javax.swing.JFrame {
             try {
 
                 Kontroler.getInstance().dodajPreparat(p);
-                JOptionPane.showMessageDialog(this, "Preparat je uspesno dodat.");
-                jtxtPoruka.setVisible(true);
-                jtxtPoruka.setText("Preparat je uspesno dodat.");
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio uneti preparat.");              
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novi preparat“ ", "Greska", JOptionPane.ERROR_MESSAGE);
                 jtxtPoruka.setText(ex.getMessage());
             }
         }
@@ -293,7 +291,7 @@ public class FPreparat extends javax.swing.JFrame {
                 comboKompanije.addItem(k);
             }
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijednu kompaniju", "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
     }

@@ -9,7 +9,7 @@ import domen.GenerickiDomenskiObjekat;
 import domen.Preparat;
 import domen.Tretman;
 import domen.TretmanPreparati;
-import gui.modeltabele.PModelTabele;
+import gui.modeltabele.PreparatModelTabele;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class FDetalji extends javax.swing.JFrame {
     private List<TretmanPreparati> listaDesno;
     private List<Preparat> listaLevo;
     List<Preparat> listaPreparata;
-    private PModelTabele pmt;
+    private PreparatModelTabele pmt;
     private DefaultListModel<Preparat> dlm;
     private ArrayList<Preparat> lp;
     private int tretmanID;
@@ -169,7 +169,7 @@ public class FDetalji extends javax.swing.JFrame {
         if (!listaLevo.isEmpty() && jtblPreparati.getSelectedRow() > -1) {
             listaPreparata.add((Preparat) listaLevo.get(jtblPreparati.getSelectedRow()));
             listaLevo.remove(jtblPreparati.getSelectedRow());
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
             dlm = new DefaultListModel<Preparat>();
             for (GenerickiDomenskiObjekat p : listaPreparata) {
@@ -183,7 +183,7 @@ public class FDetalji extends javax.swing.JFrame {
         if (!listaPreparata.isEmpty() && jListIzabraniPreparati.getSelectedIndex() > -1) {
             listaLevo.add(listaPreparata.get(jListIzabraniPreparati.getSelectedIndex()));
             listaPreparata.remove(jListIzabraniPreparati.getSelectedIndex());
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
             dlm = new DefaultListModel<Preparat>();
             for (GenerickiDomenskiObjekat p : listaPreparata) {
@@ -215,9 +215,10 @@ public class FDetalji extends javax.swing.JFrame {
             Kontroler.getInstance().setListaPreparataTretmana(ltp);
             Kontroler.getInstance().dodajPreparateTretmana();
             JOptionPane.showMessageDialog(this, "Uspesno su dodati preparati tretmana!");
+            JOptionPane.showMessageDialog(this, "Tretman je uspešno sačuvan");
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+         JOptionPane.showMessageDialog(this, "Nije moguće sačuvati podatke o tretmanu", "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
@@ -347,7 +348,7 @@ catch (Exception ex) {
                     }
                 }
 
-                PModelTabele pmt = new PModelTabele(listaLevo);
+                PreparatModelTabele pmt = new PreparatModelTabele(listaLevo);
                 jtblPreparati.setModel(pmt);
 
             }

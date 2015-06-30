@@ -5,11 +5,10 @@
  */
 package forme.t;
 
-import domen.GenerickiDomenskiObjekat;
 import domen.Tretman;
 import gui.modeltabele.ButtonEditor;
 import gui.modeltabele.ButtonRenderer;
-import gui.modeltabele.TModelTabele;
+import gui.modeltabele.TretmanModelTabele;
 import gui.modeltabele.TableCellListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -26,8 +25,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import poslovnalogika.Kontroler;
-import protokol.objekti.KlijentZahtev;
-import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -37,7 +34,7 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
 
     private List<Tretman> ltRef;
     private List<Tretman> lt;
-    private TModelTabele tmt;
+    private TretmanModelTabele tmt;
 
     /**
      * Creates new form FPoslovniPartnerPrikaz
@@ -136,14 +133,14 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Obrisani su rasporedi tretmana");
 
             Kontroler.getInstance().obrisiTretman(t);
-            JOptionPane.showMessageDialog(this, "Obrisan je tretman");
+            JOptionPane.showMessageDialog(this, "Sistem je obrisao tretman");
 
             List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
-            TModelTabele pmt = new TModelTabele(lt);
+            TretmanModelTabele pmt = new TretmanModelTabele(lt);
             jtblTretmani.setModel(pmt);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da obriše tretman", "Greska", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -163,8 +160,12 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
         try {
             ltRef = Kontroler.getInstance().vratiSveTretmane();
+            if (ltRef==null){
+             JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greška", JOptionPane.ERROR_MESSAGE);
+            }
+            
             lt = new ArrayList<Tretman>(ltRef);
-            tmt = new TModelTabele(lt);
+            tmt = new TretmanModelTabele(lt);
             jtblTretmani.setModel(tmt);
 
             Action action = new AbstractAction() {
@@ -204,25 +205,25 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                         slova = jtxtPretraga.getDocument().getText(0, jtxtPretraga.getDocument().getLength());
                     } catch (BadLocationException ex) {
                         Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
+                        
                     }
                     lt = new ArrayList<Tretman>(ltRef);
+                    List<Tretman> novaLista = new ArrayList<>();
                     for (int i = 0; i < lt.size(); i++) {
-                        if (!((Tretman) lt.get(i)).getOpis().contains(slova)) {
-                            lt.remove(i);
+                        if (((Tretman) lt.get(i)).getOpis().contains(slova)) {
+                            novaLista.add(lt.get(i));
                         }
                     }
-                    if (lt.size() == 1) {
-                        if (!((Tretman) lt.get(0)).getOpis().contains(slova)) {
-                            lt.remove(0);
-                        }
+                    if (novaLista==null){
+                         JOptionPane.showMessageDialog(getRootPane(), "Sistem ne može da nađe tretman po zadatim vrednostima", "Greška", JOptionPane.ERROR_MESSAGE);
+                   
                     }
-
-                    tmt = new TModelTabele(lt);
-                    jtblTretmani.setModel(tmt);
+                    jtblTretmani.setModel(new TretmanModelTabele(novaLista));
 
                 }
-            });
-
+            });        
+           
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }

@@ -45,6 +45,7 @@ public class FAdmin extends javax.swing.JFrame {
         jmiUnosZ = new javax.swing.JMenuItem();
         jmiUnosP = new javax.swing.JMenuItem();
         jmiUnosK = new javax.swing.JMenuItem();
+        jmiUnosR = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiIzlaz = new javax.swing.JMenuItem();
 
@@ -95,6 +96,14 @@ public class FAdmin extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jmiUnosK);
+
+        jmiUnosR.setText("rasporeda");
+        jmiUnosR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiUnosRActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmiUnosR);
 
         jMenuBar1.add(jMenu3);
 
@@ -172,6 +181,10 @@ public class FAdmin extends javax.swing.JFrame {
         new FKompanija().setVisible(true);
     }//GEN-LAST:event_jmiUnosKActionPerformed
 
+    private void jmiUnosRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUnosRActionPerformed
+      new FRaspored().setVisible(true);
+    }//GEN-LAST:event_jmiUnosRActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -217,6 +230,7 @@ public class FAdmin extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiPrikazT;
     private javax.swing.JMenuItem jmiUnosK;
     private javax.swing.JMenuItem jmiUnosP;
+    private javax.swing.JMenuItem jmiUnosR;
     private javax.swing.JMenuItem jmiUnosT;
     private javax.swing.JMenuItem jmiUnosZ;
     // End of variables declaration//GEN-END:variables

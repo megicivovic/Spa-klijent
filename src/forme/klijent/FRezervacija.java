@@ -10,14 +10,28 @@ import domen.Raspored;
 import domen.Rezervacija;
 import domen.Tretman;
 import domen.Zaposleni;
-import gui.modeltabele.RModelTabele;
+import gui.modeltabele.DateLabelFormatter;
+import gui.modeltabele.RasporedModelTabele;
+import gui.modeltabele.RezervacijaModelTabele;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 import poslovnalogika.Kontroler;
 
 /**
@@ -27,8 +41,12 @@ import poslovnalogika.Kontroler;
 public class FRezervacija extends javax.swing.JFrame {
 
     List<Raspored> listaRasporeda;
-    RModelTabele rmt;
-    Rezervacija r;
+    List<Rezervacija> listaRezervacija;
+    RasporedModelTabele rasporedModelTabele;
+    RezervacijaModelTabele rezervacijaModelTabele;
+    Rezervacija izvrsenaRezervacija;
+    JDatePickerImpl datePicker;
+    private List<Rezervacija> listaRezervacijaRef;
 
     /**
      * Creates new form FRezervacija
@@ -53,21 +71,25 @@ public class FRezervacija extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblRaspored = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jtblRezervacije = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jtxtVreme = new javax.swing.JTextField();
-        jlblStatus = new javax.swing.JLabel();
         jbtnRezervisi = new javax.swing.JButton();
         jbtnStampa = new javax.swing.JButton();
+        jpnlDatum = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblRaspored = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jtxtVreme = new javax.swing.JTextField();
+        jbtnFilteri = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rezervacija tretmana");
 
         jLabel1.setText("Raspored:");
 
-        jtblRaspored.setModel(new javax.swing.table.DefaultTableModel(
+        jtblRezervacije.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,16 +100,10 @@ public class FRezervacija extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jtblRaspored);
-
-        jLabel2.setText("Željeno vreme(yyyy-MM-dd HH:mm:ss):");
-
-        jLabel3.setText("Status:");
+        jScrollPane1.setViewportView(jtblRezervacije);
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 255));
         jLabel4.setText("Radno vreme: 12-20h");
-
-        jlblStatus.setText(" ");
 
         jbtnRezervisi.setText("Rezerviši");
         jbtnRezervisi.addActionListener(new java.awt.event.ActionListener() {
@@ -103,61 +119,120 @@ public class FRezervacija extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jpnlDatumLayout = new javax.swing.GroupLayout(jpnlDatum);
+        jpnlDatum.setLayout(jpnlDatumLayout);
+        jpnlDatumLayout.setHorizontalGroup(
+            jpnlDatumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 146, Short.MAX_VALUE)
+        );
+        jpnlDatumLayout.setVerticalGroup(
+            jpnlDatumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 23, Short.MAX_VALUE)
+        );
+
+        jtblRaspored.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtblRaspored);
+
+        jLabel2.setText("Izaberite dan :");
+
+        jLabel5.setText("Izaberite vreme(hh:mm)");
+
+        jbtnFilteri.setText("Ukloni sve filtere");
+        jbtnFilteri.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnFilteriActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Izlaz");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jlblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbtnStampa))
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jbtnRezervisi)))
-                .addContainerGap())
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbtnRezervisi)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnStampa))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(62, 62, 62)
+                .addComponent(jbtnFilteri)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(134, 134, 134))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(50, 50, 50)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(47, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jlblStatus)
-                    .addComponent(jbtnStampa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnRezervisi)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jbtnRezervisi)
+                                .addComponent(jbtnStampa)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbtnFilteri)
+                            .addComponent(jButton1))
+                        .addGap(39, 39, 39))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(95, 95, 95)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(324, Short.MAX_VALUE)))
         );
 
         pack();
@@ -166,37 +241,68 @@ public class FRezervacija extends javax.swing.JFrame {
     private void jbtnRezervisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRezervisiActionPerformed
 
         int red = jtblRaspored.getSelectedRow();
-      Tretman tretman = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0));
+        Tretman tretman = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0));
         Zaposleni zaposleni = ((Zaposleni) jtblRaspored.getModel().getValueAt(red, 1));
-        String sVreme = jtxtVreme.getText();
+        java.util.Date dan = (java.util.Date) datePicker.getModel().getValue();
+        String sVreme = jtxtVreme.getText().trim();
 
         try {
-            Date vreme = Kontroler.getInstance().validirajDatum(sVreme);
+            Date vreme = Kontroler.getInstance().validirajVreme(sVreme);
 
+            Calendar c1 = new GregorianCalendar();
+            c1.setTime(dan);
+            Calendar c2 = new GregorianCalendar();
+            c2.setTime(vreme);
+            Date zakazanoVreme = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
+                    c1.get(GregorianCalendar.DAY_OF_MONTH), c2.get(GregorianCalendar.HOUR_OF_DAY), c2.get(GregorianCalendar.MINUTE));
             //id iz sesije
             Korisnik klijent = ((Korisnik) Kontroler.getInstance().getAktivniKlijent());
-            r = new Rezervacija(klijent, tretman, zaposleni, vreme);
-            Kontroler.getInstance().dodajRezervaciju(r);
+            izvrsenaRezervacija = new Rezervacija(klijent, tretman, zaposleni, zakazanoVreme);
+            Kontroler.getInstance().dodajRezervaciju(izvrsenaRezervacija);
 
-            JOptionPane.showMessageDialog(this, "Uspesno ste izvrsili rezervaciju");
-
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio rezervaciju");
+            jbtnStampa.setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-            jlblStatus.setText(ex.getMessage());
-        }
+             JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti rezervaciju ", "Greska",
+                JOptionPane.ERROR_MESSAGE);
 
+
+        }
+        try {
+            List<Rezervacija> lr = Kontroler.getInstance().vratiSveRezervacije();
+            jtblRezervacije.setModel(new RezervacijaModelTabele(lr));
+            jtblRezervacije.repaint();
+        } catch (Exception ex) {
+            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jtxtVreme.setText("");
+        datePicker.repaint();
     }//GEN-LAST:event_jbtnRezervisiActionPerformed
 
     private void jbtnStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStampaActionPerformed
         try {
-            Kontroler.getInstance().stampajPDF(r);
-            JOptionPane.showMessageDialog(this, "Generisan je PDF!");
+            if (izvrsenaRezervacija != null) {
+                Kontroler.getInstance().stampajPDF(izvrsenaRezervacija);
+                JOptionPane.showMessageDialog(this, "Generisan je PDF!");
+            } else {
+                throw new Exception("Niste izvrsili rezervaciju!");
+            }
+            jbtnStampa.setVisible(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbtnStampaActionPerformed
+
+    private void jbtnFilteriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFilteriActionPerformed
+        osveziTabeluRezervacija();
+
+    }//GEN-LAST:event_jbtnFilteriActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,26 +340,118 @@ public class FRezervacija extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbtnFilteri;
     private javax.swing.JButton jbtnRezervisi;
     private javax.swing.JButton jbtnStampa;
-    private javax.swing.JLabel jlblStatus;
+    private javax.swing.JPanel jpnlDatum;
     private javax.swing.JTable jtblRaspored;
+    private javax.swing.JTable jtblRezervacije;
     private javax.swing.JTextField jtxtVreme;
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
         try {
+
+            jbtnStampa.setVisible(false);
             listaRasporeda = Kontroler.getInstance().vratiSveRasporede();
-            rmt = new RModelTabele(listaRasporeda);
-            jtblRaspored.setModel(rmt);
+            if (listaRasporeda == null) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greska",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            rasporedModelTabele = new RasporedModelTabele(listaRasporeda);
+            jtblRaspored.setModel(rasporedModelTabele);
+
+            listaRezervacijaRef = Kontroler.getInstance().vratiSveRezervacije();
+            listaRezervacija = new ArrayList<Rezervacija>(listaRezervacijaRef);
+            jtblRezervacije.setModel(new RezervacijaModelTabele(listaRezervacija));
+
+            UtilDateModel model = new UtilDateModel();
+            Properties p = new Properties();
+            p.put("text.today", "Today");
+            p.put("text.month", "Month");
+            p.put("text.year", "Year");
+            JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+            datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+            datePicker.setVisible(true);
+
+            jpnlDatum.setLayout(new BorderLayout());
+
+            jpnlDatum.add(datePicker, BorderLayout.CENTER);
+
+            datePicker.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if ((java.util.Date) datePicker.getModel().getValue() == null) {
+                            jtblRezervacije.setModel(new RezervacijaModelTabele(listaRezervacijaRef));
+                        }
+                        GregorianCalendar dan = new GregorianCalendar();
+                        dan.setTime((java.util.Date) datePicker.getModel().getValue());
+                        List<Rezervacija> lr = Kontroler.getInstance().vratiSveRezervacijeDana(dan);
+                        listaRezervacija = ((RezervacijaModelTabele) jtblRezervacije.getModel()).vratiListu();
+                        List<Rezervacija> novaLista = new ArrayList<>();
+                        //presek 
+                        for (int i = 0; i < lr.size(); i++) {
+                            Rezervacija r1 = lr.get(i);
+                            for (int j = 0; j < listaRezervacija.size(); j++) {
+                                Rezervacija r2 = listaRezervacija.get(j);
+                                if (r1.equals(r2)) {
+                                    novaLista.add(r2);
+                                }
+                            }
+                        }
+
+                        jtblRezervacije.setModel(new RezervacijaModelTabele(novaLista));
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(datePicker.getParent().getParent(), "Nema rezervacija za traženi dan", "Obavestenje", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            });
+
+            jtblRaspored.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent event) {
+                    if (jtblRaspored.getSelectedRow() > -1) {
+
+                        try {
+                            Raspored r = ((RasporedModelTabele) jtblRaspored.getModel()).vratiListu().get(jtblRaspored.getSelectedRow());
+                            listaRezervacija = ((RezervacijaModelTabele) jtblRezervacije.getModel()).vratiListu();
+                            List<Rezervacija> novaLista = new ArrayList<>();
+                            for (int i = 0; i < listaRezervacija.size(); i++) {
+                                Rezervacija rez = listaRezervacija.get(i);
+                                if ((rez.getTretman().equals(r.getTretman()) && rez.getZaposleni().equals(r.getZaposleni()))) {
+                                    novaLista.add(rez);
+                                }
+                            }
+
+                            jtblRezervacije.setModel(new RezervacijaModelTabele(novaLista));
+                        } catch (Exception ex) {
+                            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                }
+            });
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
+           
+    }
 
+    private void osveziTabeluRezervacija() {
+        try {
+            listaRezervacija = new ArrayList<Rezervacija>(listaRezervacijaRef);
+            jtblRezervacije.setModel(new RezervacijaModelTabele(listaRezervacija));
+        } catch (Exception ex) {
+            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

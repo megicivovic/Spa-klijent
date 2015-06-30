@@ -16,11 +16,11 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author student1
  */
-public class PModelTabele extends AbstractTableModel {
+public class PreparatModelTabele extends AbstractTableModel {
 
     List<Preparat> lp;
 
-    public PModelTabele(List<Preparat> lp) {
+    public PreparatModelTabele(List<Preparat> lp) {
         this.lp = lp;
     }
 
@@ -40,7 +40,7 @@ public class PModelTabele extends AbstractTableModel {
         try {
             p = (Preparat) lp.get(rowIndex);
         } catch (Exception ex) {
-            Logger.getLogger(PModelTabele.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PreparatModelTabele.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         switch (columnIndex) {

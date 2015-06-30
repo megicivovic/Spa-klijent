@@ -10,7 +10,7 @@ import domen.GenerickiDomenskiObjekat;
 import domen.Preparat;
 import domen.Tretman;
 import domen.TretmanPreparati;
-import gui.modeltabele.PModelTabele;
+import gui.modeltabele.PreparatModelTabele;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class FTretman extends javax.swing.JFrame {
     DefaultListModel<Preparat> dlm;
     ArrayList<Preparat> lp;
     List<Preparat> lpRef;
-    PModelTabele pmt;
+    PreparatModelTabele pmt;
     List<Preparat> lista;
     List<Preparat> listaLevo;
     private List<Preparat> listaDesno;
@@ -168,42 +168,50 @@ public class FTretman extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(35, 35, 35)
+                                .addComponent(jtxtOpis, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
+                                .addComponent(errDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(jtxtTrajanje, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(35, 35, 35)
-                        .addComponent(jtxtOpis, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(errDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(jtxtTrajanje, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtnDodajPreparat)
+                                    .addComponent(jbtnObrisiPreparat))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 56, Short.MAX_VALUE)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(107, 107, 107))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jbtnSacuvaj)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jbtnDodajPreparat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jbtnObrisiPreparat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(233, 233, 233)
+                        .addComponent(jbtnSacuvaj))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(jtxtPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(195, 195, 195)
+                        .addComponent(jtxtPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -220,26 +228,27 @@ public class FTretman extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addComponent(jtxtTrajanje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(errDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3))
+                .addComponent(errDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(jbtnDodajPreparat, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbtnObrisiPreparat, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jtxtPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jtxtPoruka, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jbtnSacuvaj)
-                .addGap(25, 25, 25))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -277,7 +286,10 @@ public class FTretman extends javax.swing.JFrame {
             try {
 
                 int tretmanID = Kontroler.getInstance().dodajTretman(t);
-                JOptionPane.showMessageDialog(this, "Uspesno ste uneli tretman!");
+                JOptionPane.showMessageDialog(this, "Tretman je uspešno dodat.");
+
+                
+
                 for (Preparat p : lp) {
                     preparatiTretmana.add(new TretmanPreparati(tretmanID, p.getPreparatID()));
                 }
@@ -287,7 +299,7 @@ public class FTretman extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Uspesno dodati preparati tretmana!");
 
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novi tretman", "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
             try {
@@ -296,7 +308,7 @@ public class FTretman extends javax.swing.JFrame {
                 jtxtPoruka.setText("Uspesno ste uneli tretman!");
 
             } catch (Exception e) {
-                jtxtPoruka.setText(e.getMessage());
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novi tretman", "Greska", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             jtxtPoruka.setText("Morate popuniti sva polja!");
@@ -313,7 +325,7 @@ public class FTretman extends javax.swing.JFrame {
         if (jListIzabraniPreparati.getSelectedIndex() != -1) {
             listaLevo.add(listaDesno.get(jListIzabraniPreparati.getSelectedIndex()));
             listaDesno.remove(jListIzabraniPreparati.getSelectedIndex());
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
             dlm = new DefaultListModel<Preparat>();
             for (GenerickiDomenskiObjekat p : listaDesno) {
@@ -329,7 +341,7 @@ public class FTretman extends javax.swing.JFrame {
         if (jtblPreparati.getSelectedRow() != -1) {
             listaDesno.add(listaLevo.get(jtblPreparati.getSelectedRow()));
             listaLevo.remove(jtblPreparati.getSelectedRow());
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
             dlm = new DefaultListModel<Preparat>();
             for (GenerickiDomenskiObjekat p : listaDesno) {
@@ -407,7 +419,7 @@ public class FTretman extends javax.swing.JFrame {
         try {
             lista = new ArrayList<Preparat>();
             listaLevo = Kontroler.getInstance().vratiSvePreparate();
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
 
             listaDesno = new ArrayList<Preparat>();
@@ -428,7 +440,7 @@ public class FTretman extends javax.swing.JFrame {
         try {
             listaLevo = new ArrayList<Preparat>(Kontroler.getInstance().vratiSvePreparate());
 
-            pmt = new PModelTabele(listaLevo);
+            pmt = new PreparatModelTabele(listaLevo);
             jtblPreparati.setModel(pmt);
 
             listaDesno = new ArrayList<Preparat>();

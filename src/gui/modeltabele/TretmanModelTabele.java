@@ -14,11 +14,11 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author student1
  */
-public class TModelTabele extends AbstractTableModel {
+public class TretmanModelTabele extends AbstractTableModel {
 
     List<Tretman> lt;
 
-    public TModelTabele(List<Tretman> lt) {
+    public TretmanModelTabele(List<Tretman> lt) {
         this.lt = lt;
 
     }

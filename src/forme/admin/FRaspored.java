@@ -138,9 +138,9 @@ public class FRaspored extends javax.swing.JFrame {
         try {
 
             Kontroler.getInstance().dodajRaspored(r);
-            JOptionPane.showMessageDialog(this, "Uspešno ste uneli raspored!");
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio uneti raspored");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novi raspored", "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
@@ -198,18 +198,24 @@ public class FRaspored extends javax.swing.JFrame {
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
         try {
-            
+
             List<Zaposleni> lz = Kontroler.getInstance().vratiSveZaposlene();
+            if (lz == null) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijednog zaposlenog", "Greska",
+                        JOptionPane.ERROR_MESSAGE);
+            }
             comboZaposleni.setModel(new DefaultComboBoxModel(lz.toArray()));
-            
+
             List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
-             comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));
+            if (lt == null) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greska",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));           
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);            
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
-
-       
 
     }
 }
