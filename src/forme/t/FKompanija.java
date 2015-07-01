@@ -280,12 +280,12 @@ public class FKompanija extends javax.swing.JFrame {
             try {
 
                 Kontroler.getInstance().dodajKompaniju(pp);
-                JOptionPane.showMessageDialog(this, "Uspesno ste uneli kompaniju!");
+                JOptionPane.showMessageDialog(this, "Kompanija je uspešno dodata");
                 jtxtPoruka.setVisible(true);
                 jtxtPoruka.setText("Kompanija je uspesno sacuvana");
             } catch (Exception ex) {
                 jtxtPoruka.setText(ex.getMessage());
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novu kompaniju", "Greska", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
@@ -350,6 +350,8 @@ public class FKompanija extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
+        JOptionPane.showMessageDialog(this, "Kompanija je uspešno dodata");
+        JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novu kompaniju", "Greška", JOptionPane.ERROR_MESSAGE);
     }
 
     private void resetujLabele() {
