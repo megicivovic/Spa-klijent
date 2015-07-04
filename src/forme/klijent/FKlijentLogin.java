@@ -58,6 +58,9 @@ public class FKlijentLogin extends javax.swing.JFrame {
         jtxtPort = new javax.swing.JTextField();
         jlblServerStatus = new javax.swing.JLabel();
         jbtnPovezivanje = new javax.swing.JButton();
+        errPovezivanje = new javax.swing.JLabel();
+        errLogin = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Prijavljivanje klijenta");
@@ -105,6 +108,17 @@ public class FKlijentLogin extends javax.swing.JFrame {
             }
         });
 
+        errPovezivanje.setForeground(new java.awt.Color(255, 0, 0));
+
+        errLogin.setForeground(new java.awt.Color(204, 0, 0));
+
+        jButton1.setText("Izlaz");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,24 +157,48 @@ public class FKlijentLogin extends javax.swing.JFrame {
                                             .addComponent(jtxtIP)
                                             .addComponent(jtxtPort))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jbtnRegistracija)
-                .addGap(116, 116, 116))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtnRegistracija)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(errPovezivanje, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(46, 46, 46))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(36, 36, 36))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(jlblServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jbtnPovezivanje)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(errLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jlblServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbtnPovezivanje)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(errPovezivanje, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -169,11 +207,13 @@ public class FKlijentLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblServerStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnPovezivanje))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jtxtKorisnickoIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
+                        .addGap(2, 2, 2)
+                        .addComponent(errLogin)
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtxtSifra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
@@ -195,33 +235,41 @@ public class FKlijentLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtKorisnickoImeActionPerformed
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
-
+        errLogin.setText("");
         String korisnickoIme = jtxtKorisnickoIme.getText().trim();
-        String korisnickaSifra = new String(jtxtSifra.getPassword());
+        if (!korisnickoIme.equals("")) {
+            String korisnickaSifra = new String(jtxtSifra.getPassword());
+            if (!korisnickaSifra.equals("")) {
+                try {
 
-        try {
+                    if (Kontroler.getInstance().ulogujSe(korisnickoIme, korisnickaSifra)) {
+                        JOptionPane.showMessageDialog(this, "Klijent je uspešno prijavljen");
+                        if (korisnickoIme.equals("admin")) {
+                            FAdmin g = new FAdmin();
+                            g.setVisible(true);
+                            this.dispose();
+                        } else {
+                            FRezervacija rezervacija = new FRezervacija();
 
-            if (Kontroler.getInstance().ulogujSe(korisnickoIme, korisnickaSifra)) {
-                JOptionPane.showMessageDialog(this, "Klijent je uspešno prijavljen");
-                if (korisnickoIme.equals("admin")) {
-                    FAdmin g = new FAdmin();
-                    g.setVisible(true);
-                    this.dispose();
-                } else {
-                    FRezervacija rezervacija = new FRezervacija();
+                            rezervacija.setVisible(true);
+                            this.setVisible(false);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Sistem ne može da nađe klijenta na osnovu unetih vrednosti", "Greška", JOptionPane.ERROR_MESSAGE);
+                    }
 
-                    rezervacija.setVisible(true);
-                    this.setVisible(false);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Sistem ne može da nađe klijenta na osnovu unetih vrednosti" + ex.getMessage(),
+                            "Greska", JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Sistem ne može da nađe klijenta na osnovu unetih vrednosti", "Greška", JOptionPane.ERROR_MESSAGE);
             }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne može da nađe klijenta na osnovu unetih vrednosti" + ex.getMessage(),
-                    "Greska", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
+            else {
+                errLogin.setText("Neispravno korisnička šifra!");
+            }
+            } else {
+                errLogin.setText("Neispravno korisničko ime!");
+            }
     }//GEN-LAST:event_jbtnLoginActionPerformed
 
     private void jbtnRegistracijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistracijaActionPerformed
@@ -231,21 +279,31 @@ public class FKlijentLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnRegistracijaActionPerformed
 
     private void jbtnPovezivanjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPovezivanjeActionPerformed
+        errPovezivanje.setText("");
         Socket socket = null;
         try {
             adresaServera = jtxtIP.getText().trim();
-            String sBrPorta = jtxtPort.getText().trim();
-            Kontroler.getInstance().validirajIPAdresu(adresaServera);
-            brojPorta = Kontroler.getInstance().validirajBrojPorta(sBrPorta);
-            socket = new Socket(adresaServera, brojPorta);
-            Kontroler.getInstance().setSocket(socket);
+            if (!adresaServera.equals("")) {
+                String sBrPorta = jtxtPort.getText().trim();
+                if (!sBrPorta.equals("")) {
+                    Kontroler.getInstance().validirajIPAdresu(adresaServera);
+                    brojPorta = Kontroler.getInstance().validirajBrojPorta(sBrPorta);
+                    socket = new Socket(adresaServera, brojPorta);
+                    Kontroler.getInstance().setSocket(socket);
 
-            jlblServerStatus.setText("Uspesno ste se povezali na server!");
-            jlblServerStatus.setForeground(Color.GREEN);
-            Kontroler.getInstance().setPovezanNaServer(true);
+                    jlblServerStatus.setText("Uspesno ste se povezali na server!");
+                    jlblServerStatus.setForeground(Color.GREEN);
+                    Kontroler.getInstance().setPovezanNaServer(true);
 
-            jbtnLogin.setEnabled(true);
-            jbtnRegistracija.setEnabled(true);
+                    jbtnLogin.setEnabled(true);
+                    jbtnRegistracija.setEnabled(true);
+                } else {
+                    errPovezivanje.setText("Neispravan broj porta!");
+                }
+            } else {
+                errPovezivanje.setText("Neispravna IP adresa!");
+            }
+
         } catch (IOException ex) {
             Logger.getLogger(FKlijentLogin.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -255,6 +313,10 @@ public class FKlijentLogin extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jbtnPovezivanjeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,6 +356,9 @@ public class FKlijentLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errLogin;
+    private javax.swing.JLabel errPovezivanje;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

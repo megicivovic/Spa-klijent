@@ -57,6 +57,9 @@
                       <Component id="jbtnSacuvaj" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="errMaticniBroj" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButton3" min="-2" pref="75" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -94,6 +97,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="errMaticniBroj" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbtnSacuvaj" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -174,6 +178,14 @@
     <Component class="javax.swing.JTextField" name="jtxtImePrezime">
     </Component>
     <Component class="javax.swing.JLabel" name="errStepenObrazovanja">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Izlaz"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

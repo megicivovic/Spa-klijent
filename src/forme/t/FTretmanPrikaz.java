@@ -59,6 +59,8 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblTretmani = new javax.swing.JTable();
         jbtnObrisi = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        errObrisi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Prikaz tretmana");
@@ -85,6 +87,15 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Izlaz");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        errObrisi.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,64 +103,84 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                        .addGap(170, 170, 170)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(40, 40, 40)
                         .addComponent(jtxtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 678, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jbtnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addGap(179, 179, 179)
+                        .addComponent(errObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtxtPretraga))
                 .addGap(13, 13, 13)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnObrisi)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addComponent(errObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnObrisi)
+                    .addComponent(jButton3))
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
+       errObrisi.setText("");
         int red = jtblTretmani.getSelectedRow();
-        int tretmanID = (int) jtblTretmani.getModel().getValueAt(red, 0);
-        try {
-            Tretman t = new Tretman(tretmanID);
-            Kontroler.getInstance().obrisiPreparateTretmana(t);
-            JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana");
+        if (red > -1) {
+            int tretmanID = (int) jtblTretmani.getModel().getValueAt(red, 0);
+            try {
+                Tretman t = new Tretman(tretmanID);
+                Kontroler.getInstance().obrisiPreparateTretmana(t);               
 
-            Kontroler.getInstance().obrisiRasporedeTretmana(t);
-            JOptionPane.showMessageDialog(this, "Obrisani su rasporedi tretmana");
+                Kontroler.getInstance().obrisiRasporedeTretmana(t);               
 
-            Kontroler.getInstance().obrisiTretman(t);
-            JOptionPane.showMessageDialog(this, "Sistem je obrisao tretman");
+                Kontroler.getInstance().obrisiTretman(t);
+                JOptionPane.showMessageDialog(this, "Sistem je obrisao tretman");
 
-            List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
-            TretmanModelTabele pmt = new TretmanModelTabele(lt);
-            jtblTretmani.setModel(pmt);
+                List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
+                TretmanModelTabele pmt = new TretmanModelTabele(lt);
+                jtblTretmani.setModel(pmt);
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne može da obriše tretman", "Greska", JOptionPane.ERROR_MESSAGE);
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da obriše tretman", "Greska", JOptionPane.ERROR_MESSAGE);
+                errObrisi.setText(ex.getMessage());
+            }
+        } else {
+               errObrisi.setText("Morate izabrati tretman koji želite da obrišete");
         }
 
-
     }//GEN-LAST:event_jbtnObrisiActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errObrisi;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnObrisi;
@@ -160,10 +191,10 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
         try {
             ltRef = Kontroler.getInstance().vratiSveTretmane();
-            if (ltRef==null){
-             JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greška", JOptionPane.ERROR_MESSAGE);
+            if (ltRef == null) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greška", JOptionPane.ERROR_MESSAGE);
             }
-            
+
             lt = new ArrayList<Tretman>(ltRef);
             tmt = new TretmanModelTabele(lt);
             jtblTretmani.setModel(tmt);
@@ -205,7 +236,7 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                         slova = jtxtPretraga.getDocument().getText(0, jtxtPretraga.getDocument().getLength());
                     } catch (BadLocationException ex) {
                         Logger.getLogger(FTretmanPrikaz.class.getName()).log(Level.SEVERE, null, ex);
-                        
+
                     }
                     lt = new ArrayList<Tretman>(ltRef);
                     List<Tretman> novaLista = new ArrayList<>();
@@ -214,16 +245,15 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                             novaLista.add(lt.get(i));
                         }
                     }
-                    if (novaLista==null){
-                         JOptionPane.showMessageDialog(getRootPane(), "Sistem ne može da nađe tretman po zadatim vrednostima", "Greška", JOptionPane.ERROR_MESSAGE);
-                   
+                    if (novaLista == null) {
+                        JOptionPane.showMessageDialog(getRootPane(), "Sistem ne može da nađe tretman po zadatim vrednostima", "Greška", JOptionPane.ERROR_MESSAGE);
+
                     }
                     jtblTretmani.setModel(new TretmanModelTabele(novaLista));
 
                 }
-            });        
-           
-            
+            });
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
         }

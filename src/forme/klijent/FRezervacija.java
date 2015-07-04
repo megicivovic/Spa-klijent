@@ -83,6 +83,7 @@ public class FRezervacija extends javax.swing.JFrame {
         jtxtVreme = new javax.swing.JTextField();
         jbtnFilteri = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        errUnos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rezervacija tretmana");
@@ -161,6 +162,8 @@ public class FRezervacija extends javax.swing.JFrame {
             }
         });
 
+        errUnos.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,29 +175,34 @@ public class FRezervacija extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbtnRezervisi)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnStampa))))
+                                .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(38, 38, 38)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbtnRezervisi)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jbtnStampa))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(119, 119, 119)
+                                .addComponent(errUnos, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGap(64, 64, 64)
                 .addComponent(jbtnFilteri)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(134, 134, 134))
+                .addGap(130, 130, 130))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(50, 50, 50)
@@ -208,26 +216,23 @@ public class FRezervacija extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jbtnRezervisi)
-                                .addComponent(jbtnStampa)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbtnFilteri)
-                            .addComponent(jButton1))
-                        .addGap(39, 39, 39))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnRezervisi)
+                        .addComponent(jbtnStampa))
+                    .addComponent(jLabel2))
+                .addGap(23, 23, 23)
+                .addComponent(errUnos)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnFilteri)
+                    .addComponent(jButton1)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(95, 95, 95)
@@ -239,45 +244,58 @@ public class FRezervacija extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnRezervisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRezervisiActionPerformed
-
+        errUnos.setText("");
         int red = jtblRaspored.getSelectedRow();
-        Tretman tretman = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0));
-        Zaposleni zaposleni = ((Zaposleni) jtblRaspored.getModel().getValueAt(red, 1));
-        java.util.Date dan = (java.util.Date) datePicker.getModel().getValue();
-        String sVreme = jtxtVreme.getText().trim();
+        if (red > -1) {
+            Tretman tretman = ((Tretman) jtblRaspored.getModel().getValueAt(red, 0));
+            Zaposleni zaposleni = ((Zaposleni) jtblRaspored.getModel().getValueAt(red, 1));
+            java.util.Date dan = (java.util.Date) datePicker.getModel().getValue();
+            if (dan != null) {
+                String sVreme = jtxtVreme.getText().trim();
+                if (!sVreme.equals("")) {
+                    try {
+                        Date vreme = Kontroler.getInstance().validirajVreme(sVreme);
 
-        try {
-            Date vreme = Kontroler.getInstance().validirajVreme(sVreme);
+                        Calendar c1 = new GregorianCalendar();
+                        c1.setTime(dan);
+                        Calendar c2 = new GregorianCalendar();
+                        c2.setTime(vreme);
+                        Date zakazanoVreme = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
+                                c1.get(GregorianCalendar.DAY_OF_MONTH), c2.get(GregorianCalendar.HOUR_OF_DAY), c2.get(GregorianCalendar.MINUTE));
+                        //id iz sesije
+                        Korisnik klijent = ((Korisnik) Kontroler.getInstance().getAktivniKlijent());
+                        izvrsenaRezervacija = new Rezervacija(klijent, tretman, zaposleni, zakazanoVreme);
+                        Kontroler.getInstance().dodajRezervaciju(izvrsenaRezervacija);
 
-            Calendar c1 = new GregorianCalendar();
-            c1.setTime(dan);
-            Calendar c2 = new GregorianCalendar();
-            c2.setTime(vreme);
-            Date zakazanoVreme = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
-                    c1.get(GregorianCalendar.DAY_OF_MONTH), c2.get(GregorianCalendar.HOUR_OF_DAY), c2.get(GregorianCalendar.MINUTE));
-            //id iz sesije
-            Korisnik klijent = ((Korisnik) Kontroler.getInstance().getAktivniKlijent());
-            izvrsenaRezervacija = new Rezervacija(klijent, tretman, zaposleni, zakazanoVreme);
-            Kontroler.getInstance().dodajRezervaciju(izvrsenaRezervacija);
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio rezervaciju");
+                        jbtnStampa.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+                        errUnos.setText(ex.getMessage());
+                        JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti rezervaciju ", "Greska",
+                                JOptionPane.ERROR_MESSAGE);
 
-            JOptionPane.showMessageDialog(this, "Sistem je zapamtio rezervaciju");
-            jbtnStampa.setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-             JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti rezervaciju ", "Greska",
-                JOptionPane.ERROR_MESSAGE);
+                    }
+                    try {
+                        List<Rezervacija> lr = Kontroler.getInstance().vratiSveRezervacije();
+                        jtblRezervacije.setModel(new RezervacijaModelTabele(lr));
+                        jtblRezervacije.repaint();
+                    } catch (Exception ex) {
+                        Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    jtxtVreme.setText("");
+                    datePicker.repaint();
+                } else {
+                    errUnos.setText("Morate uneti vreme!");
 
+                }
+            } else {
+                errUnos.setText("Morate izabrati dan!");
+            }
 
+        } else {
+            errUnos.setText("Morate izabrati tretman i zaposlenog!");
         }
-        try {
-            List<Rezervacija> lr = Kontroler.getInstance().vratiSveRezervacije();
-            jtblRezervacije.setModel(new RezervacijaModelTabele(lr));
-            jtblRezervacije.repaint();
-        } catch (Exception ex) {
-            Logger.getLogger(FRezervacija.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jtxtVreme.setText("");
-        datePicker.repaint();
     }//GEN-LAST:event_jbtnRezervisiActionPerformed
 
     private void jbtnStampaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStampaActionPerformed
@@ -301,7 +319,7 @@ public class FRezervacija extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnFilteriActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
+      System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -340,6 +358,7 @@ public class FRezervacija extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errUnos;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -443,7 +462,7 @@ public class FRezervacija extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
-           
+
     }
 
     private void osveziTabeluRezervacija() {

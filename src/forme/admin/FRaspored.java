@@ -58,6 +58,7 @@ public class FRaspored extends javax.swing.JFrame {
         jtxtTermini = new javax.swing.JTextField();
         jbtnSacuvaj = new javax.swing.JButton();
         errBrTermina = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,28 +77,36 @@ public class FRaspored extends javax.swing.JFrame {
 
         errBrTermina.setForeground(new java.awt.Color(255, 0, 0));
 
+        jButton1.setText("Izlaz");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(jbtnSacuvaj))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtTermini, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(comboZaposleni, 0, 138, Short.MAX_VALUE)
-                            .addComponent(comboTretmani, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(errBrTermina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtxtTermini, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(comboZaposleni, 0, 138, Short.MAX_VALUE)
+                    .addComponent(comboTretmani, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(errBrTermina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(140, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(jbtnSacuvaj)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +126,9 @@ public class FRaspored extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(errBrTermina, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnSacuvaj)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnSacuvaj)
+                    .addComponent(jButton1))
                 .addGap(40, 40, 40))
         );
 
@@ -125,25 +136,41 @@ public class FRaspored extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
+        errBrTermina.setText("");
         Zaposleni z = (Zaposleni) comboZaposleni.getSelectedItem();
-        Tretman t = (Tretman) comboTretmani.getSelectedItem();
-        String brTermina = jtxtTermini.getText();
-        int brojTermina = -1;
-        try {
-            brojTermina = Integer.parseInt(brTermina);
-        } catch (Exception e) {
-            errBrTermina.setText("Broj termina mora biti broj!");
-        }
-        Raspored r = new Raspored(brojTermina, z, t);
-        try {
+        if (z != null) {
+            Tretman t = (Tretman) comboTretmani.getSelectedItem();
+            if (t != null) {
+                String brTermina = jtxtTermini.getText();
+                if (!brTermina.equals("")) {
+                    int brojTermina = 0;
+                    try {
+                        brojTermina = Integer.parseInt(brTermina);
+                    } catch (Exception e) {
+                        errBrTermina.setText("Broj termina mora biti broj!");
+                    }
+                    Raspored r = new Raspored(brojTermina, z, t);
+                    try {
 
-            Kontroler.getInstance().dodajRaspored(r);
-            JOptionPane.showMessageDialog(this, "Sistem je zapamtio uneti raspored");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novi raspored", "Greška", JOptionPane.ERROR_MESSAGE);
+                        Kontroler.getInstance().dodajRaspored(r);
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio uneti raspored");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novi raspored", "Greška", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    errBrTermina.setText("Morate uneti broj termina!");
+                }
+            } else {
+               errBrTermina.setText("Morate izabrati tretman!");
+            }
+        } else {
+            errBrTermina.setText("Morate izabrati zaposlenog!");
         }
-
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,6 +216,7 @@ public class FRaspored extends javax.swing.JFrame {
     private javax.swing.JComboBox comboTretmani;
     private javax.swing.JComboBox comboZaposleni;
     private javax.swing.JLabel errBrTermina;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -211,7 +239,7 @@ public class FRaspored extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da pronađe nijedan tretman", "Greska",
                         JOptionPane.ERROR_MESSAGE);
             }
-            comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));           
+            comboTretmani.setModel(new DefaultComboBoxModel(lt.toArray()));
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);

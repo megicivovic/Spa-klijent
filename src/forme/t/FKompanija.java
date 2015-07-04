@@ -55,7 +55,7 @@ public class FKompanija extends javax.swing.JFrame {
         jbtnSacuvaj = new javax.swing.JButton();
         errMatBroj = new javax.swing.JLabel();
         errDatum = new javax.swing.JLabel();
-        jtxtPoruka = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos kompanije proizvođača");
@@ -140,8 +140,12 @@ public class FKompanija extends javax.swing.JFrame {
         errDatum.setForeground(new java.awt.Color(204, 0, 0));
         errDatum.setText(" ");
 
-        jtxtPoruka.setEditable(false);
-        jtxtPoruka.setText(" ");
+        jButton3.setText("Izlaz");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,11 +181,12 @@ public class FKompanija extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jtxtDatumOsnivanja, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jtxtPoruka)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(162, 162, 162)
                         .addComponent(jbtnSacuvaj)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -213,10 +218,12 @@ public class FKompanija extends javax.swing.JFrame {
                 .addComponent(errDatum)
                 .addGap(3, 3, 3)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtxtPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtnSacuvaj, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtnSacuvaj, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -280,15 +287,16 @@ public class FKompanija extends javax.swing.JFrame {
             try {
 
                 Kontroler.getInstance().dodajKompaniju(pp);
-                JOptionPane.showMessageDialog(this, "Kompanija je uspešno dodata");
-                jtxtPoruka.setVisible(true);
-                jtxtPoruka.setText("Kompanija je uspesno sacuvana");
-            } catch (Exception ex) {
-                jtxtPoruka.setText(ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Kompanija je uspešno dodata");              
+            } catch (Exception ex) {               
                 JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novu kompaniju", "Greska", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,6 +337,7 @@ public class FKompanija extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errDatum;
     private javax.swing.JLabel errMatBroj;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -341,7 +350,6 @@ public class FKompanija extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtMaticniBroj;
     private javax.swing.JTextField jtxtNaziv;
     private javax.swing.JTextField jtxtPIB;
-    private javax.swing.JTextField jtxtPoruka;
     private javax.swing.JTextField jtxtUlicaIBroj;
     private javax.swing.JTextField jtxtZR;
     // End of variables declaration//GEN-END:variables
@@ -350,14 +358,11 @@ public class FKompanija extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        JOptionPane.showMessageDialog(this, "Kompanija je uspešno dodata");
-        JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novu kompaniju", "Greška", JOptionPane.ERROR_MESSAGE);
-    }
+       }
 
     private void resetujLabele() {
         errDatum.setText("");
-        errMatBroj.setText("");
-        jtxtPoruka.setText("");
+        errMatBroj.setText("");       
     }
 
 }

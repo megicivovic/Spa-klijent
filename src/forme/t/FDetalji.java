@@ -62,6 +62,8 @@ public class FDetalji extends javax.swing.JFrame {
         jbtnDodajPreparat = new javax.swing.JButton();
         jbtnObrisiPreparat = new javax.swing.JButton();
         jbtnSacuvaj = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        errIzbor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,26 +107,39 @@ public class FDetalji extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Izlaz");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        errIzbor.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(292, Short.MAX_VALUE)
+                .addGap(266, 266, 266)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbtnSacuvaj)
+                    .addComponent(errIzbor, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jbtnDodajPreparat)
                             .addComponent(jbtnObrisiPreparat))
-                        .addGap(46, 46, 46)
+                        .addGap(66, 66, 66)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(79, 79, 79))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jbtnSacuvaj)
-                        .addGap(289, 289, 289))))
+                        .addComponent(jButton3)
+                        .addGap(51, 51, 51))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,39 +148,44 @@ public class FDetalji extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(352, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(390, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
+                        .addGap(86, 86, 86)
                         .addComponent(jbtnDodajPreparat, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbtnObrisiPreparat, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3)
                         .addGap(16, 16, 16)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addComponent(jbtnSacuvaj)
-                .addGap(50, 50, 50))
+                .addGap(14, 14, 14)
+                .addComponent(errIzbor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnSacuvaj)
+                    .addComponent(jButton3))
+                .addGap(58, 58, 58))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(20, 20, 20)
                     .addComponent(jLabel4)
                     .addGap(13, 13, 13)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(130, Short.MAX_VALUE)))
+                    .addContainerGap(158, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnDodajPreparatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDodajPreparatActionPerformed
+        errIzbor.setText("");
         if (!listaLevo.isEmpty() && jtblPreparati.getSelectedRow() > -1) {
             listaPreparata.add((Preparat) listaLevo.get(jtblPreparati.getSelectedRow()));
             listaLevo.remove(jtblPreparati.getSelectedRow());
@@ -176,10 +196,13 @@ public class FDetalji extends javax.swing.JFrame {
                 dlm.addElement((Preparat) p);
             }
             jListIzabraniPreparati.setModel(dlm);
+        } else {
+            errIzbor.setText("Morate izabrati preparat koji želite da dodate!");
         }
     }//GEN-LAST:event_jbtnDodajPreparatActionPerformed
 
     private void jbtnObrisiPreparatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiPreparatActionPerformed
+        errIzbor.setText("");
         if (!listaPreparata.isEmpty() && jListIzabraniPreparati.getSelectedIndex() > -1) {
             listaLevo.add(listaPreparata.get(jListIzabraniPreparati.getSelectedIndex()));
             listaPreparata.remove(jListIzabraniPreparati.getSelectedIndex());
@@ -190,6 +213,9 @@ public class FDetalji extends javax.swing.JFrame {
                 dlm.addElement((Preparat) p);
             }
             jListIzabraniPreparati.setModel(dlm);
+        }
+        else {
+            errIzbor.setText("Morate izabrati preparat koji želite da uklonite!");
         }
     }//GEN-LAST:event_jbtnObrisiPreparatActionPerformed
 
@@ -218,15 +244,19 @@ public class FDetalji extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tretman je uspešno sačuvan");
 
         } catch (Exception ex) {
-         JOptionPane.showMessageDialog(this, "Nije moguće sačuvati podatke o tretmanu", "Greška", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nije moguće sačuvati podatke o tretmanu", "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -237,32 +267,21 @@ public static void main(String args[]) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FDetalji.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FDetalji.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FDetalji.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -271,36 +290,27 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             public void run() {
                 try {
                     new FDetalji().setVisible(true);
-                
 
-} catch (ClassNotFoundException ex) {
-                    Logger.getLogger(FDetalji.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-                } 
-
-catch (SQLException ex) {
-                    Logger.getLogger(FDetalji.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-                } 
-
-catch (IOException ex) {
-                    Logger.getLogger(FDetalji.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-                } 
-
-catch (Exception ex) {
-                    Logger.getLogger(FDetalji.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(FDetalji.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FDetalji.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FDetalji.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(FDetalji.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errIzbor;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JList jListIzabraniPreparati;

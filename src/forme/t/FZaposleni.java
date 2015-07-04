@@ -52,6 +52,7 @@ public class FZaposleni extends javax.swing.JFrame {
         comboSS = new javax.swing.JComboBox();
         jtxtImePrezime = new javax.swing.JTextField();
         errStepenObrazovanja = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos novog zaposlenog");
@@ -87,6 +88,13 @@ public class FZaposleni extends javax.swing.JFrame {
 
         comboSS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "I", "II", "III", "IV", "V", "VI", "VII" }));
 
+        jButton3.setText("Izlaz");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,7 +127,10 @@ public class FZaposleni extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnSacuvaj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(errMaticniBroj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(errMaticniBroj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -148,7 +159,8 @@ public class FZaposleni extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(errMaticniBroj)
-                            .addComponent(jbtnSacuvaj))))
+                            .addComponent(jbtnSacuvaj)
+                            .addComponent(jButton3))))
                 .addGap(29, 29, 29))
         );
 
@@ -207,6 +219,10 @@ public class FZaposleni extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -259,6 +275,7 @@ public class FZaposleni extends javax.swing.JFrame {
     private javax.swing.JLabel errImePrezime;
     private javax.swing.JLabel errMaticniBroj;
     private javax.swing.JLabel errStepenObrazovanja;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

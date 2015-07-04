@@ -52,11 +52,11 @@ public class FPreparat extends javax.swing.JFrame {
         jbtnSacuvaj = new javax.swing.JButton();
         errNaziv = new javax.swing.JLabel();
         errCena = new javax.swing.JLabel();
-        jtxtPoruka = new javax.swing.JTextField();
         jtxtNaziv = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         comboKompanije = new javax.swing.JComboBox();
         errProizvodjac = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos novog preparata");
@@ -84,11 +84,14 @@ public class FPreparat extends javax.swing.JFrame {
         errCena.setForeground(new java.awt.Color(204, 0, 0));
         errCena.setText(" ");
 
-        jtxtPoruka.setEditable(false);
-        jtxtPoruka.setText(" ");
-        jtxtPoruka.setBorder(null);
-
         jLabel4.setText("Proizvođač:");
+
+        jButton3.setText("Izlaz");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,14 +112,9 @@ public class FPreparat extends javax.swing.JFrame {
                                         .addGap(14, 14, 14))
                                     .addComponent(errNaziv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtxtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(151, 151, 151)
-                                        .addComponent(jbtnSacuvaj)))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 30, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -125,10 +123,13 @@ public class FPreparat extends javax.swing.JFrame {
                         .addComponent(comboKompanije, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(errProizvodjac, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jtxtPoruka)
-                        .addGap(19, 19, 19))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(151, 151, 151)
+                .addComponent(jbtnSacuvaj)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,11 +152,11 @@ public class FPreparat extends javax.swing.JFrame {
                         .addComponent(comboKompanije, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4))
                     .addComponent(errProizvodjac, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jbtnSacuvaj)
-                .addGap(18, 18, 18)
-                .addComponent(jtxtPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnSacuvaj)
+                    .addComponent(jButton3))
+                .addGap(39, 39, 39))
         );
 
         pack();
@@ -206,11 +207,15 @@ public class FPreparat extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio uneti preparat.");              
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti novi preparat“ ", "Greska", JOptionPane.ERROR_MESSAGE);
-                jtxtPoruka.setText(ex.getMessage());
+             
             }
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,20 +275,19 @@ public class FPreparat extends javax.swing.JFrame {
     private javax.swing.JLabel errCena;
     private javax.swing.JLabel errNaziv;
     private javax.swing.JLabel errProizvodjac;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JButton jbtnSacuvaj;
     private javax.swing.JTextField jtxtCena;
     private javax.swing.JTextField jtxtNaziv;
-    private javax.swing.JTextField jtxtPoruka;
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() throws ClassNotFoundException, SQLException, IOException, Exception {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-
-        jtxtPoruka.setVisible(false);      
+ 
         try{
             List<Kompanija> kompanije = Kontroler.getInstance().vratiSveKompanije();
             comboKompanije.removeAllItems();
@@ -300,6 +304,6 @@ public class FPreparat extends javax.swing.JFrame {
         errCena.setText("");
         errNaziv.setText("");
         errProizvodjac.setText("");
-        jtxtPoruka.setText("");
+       
     }
 }
