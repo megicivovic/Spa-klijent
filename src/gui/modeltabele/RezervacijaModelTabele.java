@@ -42,11 +42,11 @@ public class RezervacijaModelTabele extends AbstractTableModel {
             case 1:
                 return r.getZaposleni();
             case 2:{
-             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 return sdf.format(r.getVreme());
             }
             case 3: {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date d = new Date(r.getVreme().getTime() + r.getTretman().getTrajanjeUMin() * 60 * 1000);
 
                 return sdf.format(d);

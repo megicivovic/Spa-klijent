@@ -33,7 +33,7 @@ import protokol.objekti.ServerOdgovor;
  * @author Ivana
  */
 public class Kontroler {
-    
+
     private Korisnik aktivniKlijent;
     private Socket socket;
     boolean povezanNaServer;
@@ -47,7 +47,7 @@ public class Kontroler {
     private List<Preparat> listaPreparata;
     private List<Kompanija> listaKompanija;
     private List<Rezervacija> listaRezervacija;
-    
+
     private static final String IPADDRESS_PATTERN
             = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
             + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
@@ -55,7 +55,7 @@ public class Kontroler {
             + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
     private Pattern pattern;
     private Matcher matcher;
-    
+
     private Kontroler() {
     }
 
@@ -66,62 +66,60 @@ public class Kontroler {
     public void setPovezanNaServer(boolean povezanNaServer) {
         this.povezanNaServer = povezanNaServer;
     }
-    
-    
+
     public List<Preparat> getListaPreparata() {
         return listaPreparata;
     }
-    
+
     public void setListaPreparata(List<Preparat> listaPreparata) {
         this.listaPreparata = listaPreparata;
     }
-    
+
     public List<TretmanPreparati> getListaPreparataTretmana() {
         return listaPreparataTretmana;
     }
-    
+
     public void setListaPreparataTretmana(List<TretmanPreparati> listaPreparataTretmana) {
         this.listaPreparataTretmana = listaPreparataTretmana;
     }
-    
+
     public List<Raspored> getListaRasporeda() {
         return listaRasporeda;
     }
-    
+
     public void setListaRasporeda(List<Raspored> listaRasporeda) {
         this.listaRasporeda = listaRasporeda;
     }
-    
+
     public List<Rezervacija> getListaRezervacija() {
         return listaRezervacija;
     }
-    
+
     public void setListaRezervacija(List<Rezervacija> listaRezervacija) {
         this.listaRezervacija = listaRezervacija;
     }
 
-    
     private static class KontrolerHolder {
-        
+
         private static final Kontroler INSTANCE = new Kontroler();
     }
-    
+
     public static Kontroler getInstance() {
         return KontrolerHolder.INSTANCE;
     }
-    
+
     public Korisnik getAktivniKlijent() {
         return aktivniKlijent;
     }
-    
+
     public void setAktivniKlijent(Korisnik aktivniKlijent) {
         this.aktivniKlijent = aktivniKlijent;
     }
-    
+
     public Socket getSocket() {
         return socket;
     }
-    
+
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
@@ -153,7 +151,7 @@ public class Kontroler {
         }
         return serverOdgovor.getObjekat();
     }
-    
+
     public boolean ulogujSe(String korisnickoIme, String sifra) throws Exception {
         Korisnik klijent = new Korisnik();
         klijent.setKorisnickoIme(korisnickoIme);
@@ -168,7 +166,7 @@ public class Kontroler {
         }
         return false;
     }
-    
+
     public void registrujSe(Korisnik klijent) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(klijent);
@@ -176,7 +174,7 @@ public class Kontroler {
         klijent = (Korisnik) posaljiPrimi(klijentZahtev);
         setAktivniKlijent(klijent);
     }
-    
+
     public boolean validirajKorisnickoIme(String korisnickoIme) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         Korisnik k = new Korisnik();
@@ -185,7 +183,7 @@ public class Kontroler {
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VALIDIRAJ_KORISNICKO_IME);
         return (boolean) posaljiPrimi(klijentZahtev);
     }
-    
+
     public void validirajIPAdresu(String ip) throws Exception {
         pattern = Pattern.compile(IPADDRESS_PATTERN);
         matcher = pattern.matcher(ip);
@@ -193,20 +191,20 @@ public class Kontroler {
             throw new Exception("Format IP adrese nije ispravan!");
         }
     }
-    
+
     public int validirajBrojPorta(String brojPorta) throws Exception {
         try {
             return Integer.parseInt(brojPorta);
         } catch (Exception e) {
             throw new Exception("Neispravan broj porta!");
         }
-        
+
     }
-    
+
     public void validirajIme(String ime) throws Exception {
         if (ime == null || ime.isEmpty()) {
             throw new Exception("Morate uneti ime");
-            
+
         }
         if ((int) ime.charAt(0) < 65 || (int) ime.charAt(0) > 90) {
             throw new Exception("Ime mora pocinjati velikim slovom!");
@@ -216,52 +214,54 @@ public class Kontroler {
                 // throw new Exception("Ime mora sadrzati samo slova!");
             }
         }
-        
+
     }
-    
+
     public Date validirajVreme(String sVreme) throws Exception {
         try {
+
             return new SimpleDateFormat("HH:mm").parse(sVreme);
+
         } catch (ParseException ex) {
             throw new Exception("Vreme rezervacije nije ispravno uneto!");
         }
     }
-    
+
     public boolean validirajSifru(String sifra) {
         if (sifra == null) {
             return false;
         }
         return sifra.length() >= 8;
     }
-    
+
     public List<Zaposleni> vratiSveZaposlene() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_ZAPOSLENE);
         listaZaposlenih = (List<Zaposleni>) posaljiPrimi(klijentZahtev);
         return listaZaposlenih;
     }
-    
+
     public List<Tretman> vratiSveTretmane() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_TRETMANE);
         listaTretmana = (List<Tretman>) posaljiPrimi(klijentZahtev);
         return listaTretmana;
     }
-    
+
     public List<Raspored> vratiSveRasporede() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_RASPOREDE);
         listaRasporeda = (List<Raspored>) posaljiPrimi(klijentZahtev);
         return listaRasporeda;
     }
-    
+
     public List<Rezervacija> vratiSveRezervacije() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_REZERVACIJE);
         listaRezervacija = (List<Rezervacija>) posaljiPrimi(klijentZahtev);
         return listaRezervacija;
     }
-    
+
     public List<Rezervacija> vratiSveRezervacijeDana(GregorianCalendar dan) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(dan);
@@ -277,50 +277,49 @@ public class Kontroler {
         listaRezervacija = (List<Rezervacija>) posaljiPrimi(klijentZahtev);
         return listaRezervacija;
     }
-    
+
     public List<Preparat> vratiSvePreparate() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_PREPARATE);
         listaPreparata = (List<Preparat>) posaljiPrimi(klijentZahtev);
         return listaPreparata;
     }
-    
+
     public List<Kompanija> vratiSveKompanije() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setProtokol(Protokol.OPERACIJA_VRATI_SVE_KOMPANIJE);
         listaKompanija = (List<Kompanija>) posaljiPrimi(klijentZahtev);
         return listaKompanija;
     }
-    
+
     public void dodajRezervaciju(Rezervacija r) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(r);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_REZERVACIJU);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public int dodajTretman(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_TRETMAN);
         return (int) posaljiPrimi(klijentZahtev);
     }
-    
-    
+
     public void dodajKorisnika(Korisnik k) throws Exception {
-       KlijentZahtev klijentZahtev = new KlijentZahtev();
+        KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(k);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_KORISNIKA);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void stampajPDF(Rezervacija r) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(r);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_STAMPAJ_PDF);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public List<TretmanPreparati> vratiSvePreparateTretmana(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
@@ -328,31 +327,31 @@ public class Kontroler {
         listaPreparataTretmana = (List<TretmanPreparati>) posaljiPrimi(klijentZahtev);
         return listaPreparataTretmana;
     }
-    
+
     public void obrisiPreparateTretmana(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_OBRISI_PREPARATE_TRETMANA);
         posaljiPrimi(klijentZahtev);
-        
+
     }
-    
+
     public void obrisiRasporedeTretmana(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_OBRISI_RASPOREDE_TRETMANA);
         posaljiPrimi(klijentZahtev);
-        
+
     }
-    
+
     public void obrisiTretman(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_OBRISI_TRETMAN);
         posaljiPrimi(klijentZahtev);
-        
+
     }
-    
+
     public Preparat vratiPreparatPoID(Preparat p) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(p);
@@ -360,47 +359,47 @@ public class Kontroler {
         preparat = (Preparat) posaljiPrimi(klijentZahtev);
         return preparat;
     }
-    
+
     public void dodajRaspored(Raspored r) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(r);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_RASPORED);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void dodajKompaniju(Kompanija kompanija) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(kompanija);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_KOMPANIJU);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void dodajZaposlenog(Zaposleni zaposleni) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(zaposleni);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_ZAPOSLENOG);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void dodajPreparat(Preparat preparat) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(preparat);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_PREPARAT);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void dodajPreparateTretmana() throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(listaPreparataTretmana);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_DODAJ_PREPARATE_TRETMANA);
         posaljiPrimi(klijentZahtev);
     }
-    
+
     public void izmeniTretman(Tretman t) throws Exception {
         KlijentZahtev klijentZahtev = new KlijentZahtev();
         klijentZahtev.setObjekat(t);
         klijentZahtev.setProtokol(Protokol.OPERACIJA_IZMENI_TRETMAN);
         posaljiPrimi(klijentZahtev);
     }
-    
+
 }

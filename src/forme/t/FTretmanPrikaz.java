@@ -150,20 +150,27 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
             int tretmanID = (int) jtblTretmani.getModel().getValueAt(red, 0);
             try {
                 Tretman t = new Tretman(tretmanID);
-                Kontroler.getInstance().obrisiPreparateTretmana(t);
-
-                Kontroler.getInstance().obrisiRasporedeTretmana(t);
 
                 Kontroler.getInstance().obrisiTretman(t);
+              //  Kontroler.getInstance().obrisiPreparateTretmana(t);
+
+              //  Kontroler.getInstance().obrisiRasporedeTretmana(t);
+
                 JOptionPane.showMessageDialog(this, "Sistem je obrisao tretman");
 
                 List<Tretman> lt = Kontroler.getInstance().vratiSveTretmane();
                 TretmanModelTabele pmt = new TretmanModelTabele(lt);
                 jtblTretmani.setModel(pmt);
+                
+                
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da obriše tretman", "Greska", JOptionPane.ERROR_MESSAGE);
                 errObrisi.setText(ex.getMessage());
+                   jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
+
+            jtblTretmani.getColumn("Preparati").setCellEditor(
+                    new ButtonEditor(new JCheckBox(), jtblTretmani));
             }
         } else {
             errObrisi.setText("Morate izabrati tretman koji želite da obrišete");
@@ -209,7 +216,7 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
 
                 }
             };
-          
+
             jtblTretmani.addPropertyChangeListener(new TableCellListener(jtblTretmani, action));
 
             jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
@@ -251,6 +258,8 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                     }
                     jtblTretmani.setModel(new TretmanModelTabele(novaLista));
                     jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
+                    jtblTretmani.getColumn("Preparati").setCellEditor(
+                            new ButtonEditor(new JCheckBox(), jtblTretmani));
 
                     jtblTretmani.repaint();
 
