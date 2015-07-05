@@ -294,7 +294,7 @@ public class FTretman extends javax.swing.JFrame {
                 Kontroler.getInstance().setListaPreparataTretmana(preparatiTretmana);
                 Kontroler.getInstance().dodajPreparateTretmana();
 
-                JOptionPane.showMessageDialog(this, "Uspesno dodati preparati tretmana!");
+              //  JOptionPane.showMessageDialog(this, "Uspesno dodati preparati tretmana!");
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da kreira novi tretman", "Greska", JOptionPane.ERROR_MESSAGE);

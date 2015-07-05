@@ -14,12 +14,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import poslovnalogika.Kontroler;
-import protokol.objekti.KlijentZahtev;
-import protokol.objekti.ServerOdgovor;
 
 /**
  *
@@ -175,6 +171,12 @@ public class FPreparat extends javax.swing.JFrame {
         long cena = 0;
         boolean validacija = true;
         Date datum = null;
+        
+        if (sCena.equals("")){
+            errCena.setText("Morate uneti cenu!");
+            validacija=false;
+        }
+        
         if (!sCena.isEmpty()) {
             try {
                 cena = Long.parseLong(sCena);
@@ -185,10 +187,12 @@ public class FPreparat extends javax.swing.JFrame {
             }
 
         }
-        if (naziv.isEmpty()) {
+        if (naziv.equals("")) {
             errNaziv.setText("Morate uneti naziv ");
             validacija = false;
         }
+        
+        
 
         if (k == null) {
             errProizvodjac.setText("Morate izabrati kompaniju proizvođača. ");

@@ -236,11 +236,11 @@ public class FDetalji extends javax.swing.JFrame {
         try {
             Tretman t = new Tretman(tretmanID);
             Kontroler.getInstance().obrisiPreparateTretmana(t);
-            JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana...");
+          //  JOptionPane.showMessageDialog(this, "Obrisani su preparati tretmana...");
 
             Kontroler.getInstance().setListaPreparataTretmana(ltp);
             Kontroler.getInstance().dodajPreparateTretmana();
-            JOptionPane.showMessageDialog(this, "Uspesno su dodati preparati tretmana!");
+           // JOptionPane.showMessageDialog(this, "Uspesno su dodati preparati tretmana!");
             JOptionPane.showMessageDialog(this, "Tretman je uspešno sačuvan");
 
         } catch (Exception ex) {

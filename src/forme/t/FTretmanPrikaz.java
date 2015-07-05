@@ -10,6 +10,7 @@ import gui.modeltabele.ButtonEditor;
 import gui.modeltabele.ButtonRenderer;
 import gui.modeltabele.TretmanModelTabele;
 import gui.modeltabele.TableCellListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -143,15 +144,15 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
-       errObrisi.setText("");
+        errObrisi.setText("");
         int red = jtblTretmani.getSelectedRow();
         if (red > -1) {
             int tretmanID = (int) jtblTretmani.getModel().getValueAt(red, 0);
             try {
                 Tretman t = new Tretman(tretmanID);
-                Kontroler.getInstance().obrisiPreparateTretmana(t);               
+                Kontroler.getInstance().obrisiPreparateTretmana(t);
 
-                Kontroler.getInstance().obrisiRasporedeTretmana(t);               
+                Kontroler.getInstance().obrisiRasporedeTretmana(t);
 
                 Kontroler.getInstance().obrisiTretman(t);
                 JOptionPane.showMessageDialog(this, "Sistem je obrisao tretman");
@@ -160,13 +161,12 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                 TretmanModelTabele pmt = new TretmanModelTabele(lt);
                 jtblTretmani.setModel(pmt);
 
-            } 
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da obriše tretman", "Greska", JOptionPane.ERROR_MESSAGE);
                 errObrisi.setText(ex.getMessage());
             }
         } else {
-               errObrisi.setText("Morate izabrati tretman koji želite da obrišete");
+            errObrisi.setText("Morate izabrati tretman koji želite da obrišete");
         }
 
     }//GEN-LAST:event_jbtnObrisiActionPerformed
@@ -209,7 +209,7 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
 
                 }
             };
-
+          
             jtblTretmani.addPropertyChangeListener(new TableCellListener(jtblTretmani, action));
 
             jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
@@ -245,11 +245,14 @@ public class FTretmanPrikaz extends javax.swing.JFrame {
                             novaLista.add(lt.get(i));
                         }
                     }
-                    if (novaLista == null) {
+                    if (novaLista.isEmpty()) {
                         JOptionPane.showMessageDialog(getRootPane(), "Sistem ne može da nađe tretman po zadatim vrednostima", "Greška", JOptionPane.ERROR_MESSAGE);
 
                     }
                     jtblTretmani.setModel(new TretmanModelTabele(novaLista));
+                    jtblTretmani.getColumn("Preparati").setCellRenderer(new ButtonRenderer());
+
+                    jtblTretmani.repaint();
 
                 }
             });
