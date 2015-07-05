@@ -180,7 +180,8 @@ public class FRezervacija extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addComponent(jLabel2)
-                                .addGap(55, 55, 55)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(167, 167, 167)
@@ -192,14 +193,13 @@ public class FRezervacija extends javax.swing.JFrame {
                                         .addGap(194, 194, 194)
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(29, 29, 29)
+                                        .addGap(69, 69, 69)
                                         .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
+                                        .addComponent(jtxtVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)
                                         .addComponent(jbtnRezervisi)
-                                        .addGap(41, 41, 41)
+                                        .addGap(18, 18, 18)
                                         .addComponent(jbtnStampa)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -209,7 +209,7 @@ public class FRezervacija extends javax.swing.JFrame {
                 .addComponent(jbtnFilteri)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(117, 117, 117))
+                .addGap(56, 56, 56))
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jLabel1)
@@ -218,7 +218,7 @@ public class FRezervacija extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(50, 50, 50)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(188, Short.MAX_VALUE)))
+                    .addContainerGap(172, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +227,7 @@ public class FRezervacija extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpnlDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -241,19 +241,21 @@ public class FRezervacija extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(errUnos, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbtnFilteri)
-                            .addComponent(jButton1)))
+                        .addComponent(jbtnFilteri))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(95, 95, 95)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(324, Short.MAX_VALUE)))
+                    .addContainerGap(336, Short.MAX_VALUE)))
         );
 
         pack();
@@ -278,20 +280,20 @@ public class FRezervacija extends javax.swing.JFrame {
                         Calendar c2 = new GregorianCalendar();
                         c2.setTime(vreme);
                         System.out.println(c1.get(GregorianCalendar.YEAR));
-                        Date zakazanoVreme = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
+                        Date zakazanoVreme = new Date(c1.get(GregorianCalendar.YEAR)-1900, c1.get(GregorianCalendar.MONTH),
                                 c1.get(GregorianCalendar.DAY_OF_MONTH), c2.get(GregorianCalendar.HOUR_OF_DAY), c2.get(GregorianCalendar.MINUTE));
-                       
+                      
 
                         Calendar c3 = new GregorianCalendar();
                         c3.setTime(Kontroler.getInstance().validirajVreme("12:00"));
 
-                        Date pocetakRadnogVremena = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
+                        Date pocetakRadnogVremena = new Date(c1.get(GregorianCalendar.YEAR)-1900, c1.get(GregorianCalendar.MONTH),
                                 c1.get(GregorianCalendar.DAY_OF_MONTH), c3.get(GregorianCalendar.HOUR_OF_DAY), c3.get(GregorianCalendar.MINUTE));
 
                         Calendar c4 = new GregorianCalendar();
                         c4.setTime(Kontroler.getInstance().validirajVreme("20:00"));
 
-                        Date krajRadnogVremena = new Date(c1.get(GregorianCalendar.YEAR), c1.get(GregorianCalendar.MONTH),
+                        Date krajRadnogVremena = new Date(c1.get(GregorianCalendar.YEAR)-1900, c1.get(GregorianCalendar.MONTH),
                                 c1.get(GregorianCalendar.DAY_OF_MONTH), c4.get(GregorianCalendar.HOUR_OF_DAY), c4.get(GregorianCalendar.MINUTE));
 
                         if (zakazanoVreme.before(pocetakRadnogVremena) || zakazanoVreme.after(krajRadnogVremena)) {
